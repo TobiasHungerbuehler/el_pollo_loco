@@ -1,5 +1,10 @@
 class World {
+    
+    canvas;
+    ctx; // canvas variable um auf canvas zu zeichnen
+
     character = new Character(); //pepe
+
     enemies = [
         new Chicken(),
         new Chicken(),
@@ -18,8 +23,6 @@ class World {
         new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0)
     ];
 
-    canvas;
-    ctx; // canvas variable um auf canvas zu zeichnen
 
     constructor(canvas){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
