@@ -1,4 +1,4 @@
-class MovableObject {
+class MovableObject { // test
     x = 120;
     y = 280;
     img;
