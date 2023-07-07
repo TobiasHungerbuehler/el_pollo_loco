@@ -13,16 +13,18 @@ class Chicken extends MovableObject {
         this.x = (Math.random() * 500) + 200; // Zufällige Position  + position pepe
         this.loadImages(this.IMAGES_WALKING) // load all walking images in imageCache
         this.animate();
-        console.log('chicken function=', this.imageCache)
+        this.speed = 0.15 + Math.random() * 0.55; // random speed for chicken
     }
 
     animate(){
+        this.moveLeft();
+
         setInterval(()=> {
             let i = this.currentImage % this.IMAGES_WALKING.length;
             let path = this.IMAGES_WALKING[i];
             this.img = this.imageCache[path];
             this.currentImage++; 
-        }, 1000)
+        }, 100)
     }
 
 

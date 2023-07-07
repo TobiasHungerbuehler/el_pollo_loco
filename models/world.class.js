@@ -1,10 +1,7 @@
 class World {
-    
     canvas;
     ctx; // canvas variable um auf canvas zu zeichnen
-
     character = new Character(); //pepe
-
     enemies = [
         new Chicken(),
         new Chicken(),
@@ -14,7 +11,7 @@ class World {
     clouds = [
         new Cloud()
     ];
-
+    
     backgrounds = [
         new BackgroundObject('../img/5_background/layers/air.png', 0),
         new BackgroundObject('../img/5_background/layers/3_third_layer/1.png', 0),
@@ -36,7 +33,6 @@ class World {
         this.addObjectToMap(this.enemies)// draw chicken
         this.addObjectToMap(this.clouds)// Clouds         
 
-        
         // draw loop // standard Methode
         let self = this;
         requestAnimationFrame(function(){

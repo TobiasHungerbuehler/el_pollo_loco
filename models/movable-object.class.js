@@ -6,6 +6,7 @@ class MovableObject {
     width = 100;
     imageCache = {}; //image json Array 
     currentImage = 0;
+    speed = 0.15;
 
     loadImage(path) {
         this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
@@ -19,5 +20,11 @@ class MovableObject {
             this.imageCache[path] = img; //image wird mit path als key in "imageCache gespeichert" 
             //console.log(this.imageCache)
         })
+    }
+
+    moveLeft(){
+        setInterval(() => {
+            this.x -= this.speed;
+        }, 1000 / 60) 
     }
 }
