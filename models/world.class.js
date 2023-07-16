@@ -8,7 +8,7 @@ class World {
         new Chicken()
     ];
 
-    clouds = [
+    clouds = [ 
         new Cloud()
     ];
     
@@ -19,11 +19,14 @@ class World {
         new BackgroundObject('../img/5_background/layers/2_second_layer/1.png', 0),
         new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0)
     ];
+    keyboard;
 
-
-    constructor(canvas){
+    constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
         this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
+        this.keyboard = keyboard;
+        this.draw();
+        this.setWorldId();
     }
 
     draw() {
@@ -50,6 +53,10 @@ class World {
 
     addToMap(ob){ 
         this.ctx.drawImage(ob.img, ob.x, ob.y, ob.width, ob.height);
+    }
+
+    setWorldId() {
+        this.character.world = this;// übergibt die komplette instanz um  auf elemente zuzugreifen
     }
 }
 
