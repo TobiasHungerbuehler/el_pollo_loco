@@ -7,6 +7,8 @@ class MovableObject { // test
     imageCache = {}; //image json Array 
     currentImage = 0;
     speed = 0.15;
+    otherDirection = false;
+
 
     loadImage(path) {
         this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag

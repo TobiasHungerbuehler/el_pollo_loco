@@ -1,24 +1,9 @@
 class World {
     canvas;
-    ctx; // canvas variable um auf canvas zu zeichnen
+    ctx; // standard klasse mit methoden und eigenschaften
     character = new Character(); //pepe
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken()
-    ];
-
-    clouds = [ 
-        new Cloud()
-    ];
-    
-    backgrounds = [
-        new BackgroundObject('../img/5_background/layers/air.png', 0),
-        new BackgroundObject('../img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0)
-    ];
+    camera_x = 0;
+    level = level1;
     keyboard;
 
     constructor(canvas, keyboard){
@@ -31,10 +16,16 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
-        this.addObjectToMap(this.backgrounds)// Backgrounds
+
+        this.ctx.translate(this.camera_x, 0); // der context ctx verschiebt sich 100 nach links
+
+        //elemente werden gezeichnet
+        this.addObjectToMap(this.level.backgrounds)// Backgrounds
         this.addToMap(this.character)// draw pepe
-        this.addObjectToMap(this.enemies)// draw chicken
-        this.addObjectToMap(this.clouds)// Clouds         
+        this.addObjectToMap(this.level.enemies)// draw chicken
+        this.addObjectToMap(this.level.clouds)// Clouds    
+
+        this.ctx.translate(-this.camera_x, 0); // der context ctx verschiebt sich wieder nach rechts  
 
         // draw loop // standard Methode
         let self = this;
@@ -42,7 +33,7 @@ class World {
             self.draw();
         });
     }
-
+1
 
     addObjectToMap(objects){
         objects.forEach(ob => {
@@ -52,11 +43,27 @@ class World {
 
 
     addToMap(ob){ 
+        //bild drehen wenn otherDirection = true
+        if(ob.otherDirection){
+            this.ctx.save(); // Speicher die eigenschaften ctx
+            this.ctx.translate(ob.width, 0); // spiegelverkehrt einfügen
+            this.ctx.scale(-1, 1); // um die breite des elemnts verschieben
+            ob.x = ob.x * -1;
+        }
+        
         this.ctx.drawImage(ob.img, ob.x, ob.y, ob.width, ob.height);
+
+        //bild wieder zurück drehen
+        if(ob.otherDirection){
+            this.ctx.restore();
+            ob.x = ob.x * -1;
+        }
+        
     }
 
     setWorldId() {
-        this.character.world = this;// übergibt die komplette instanz um  auf elemente zuzugreifen
+        this.character.world = this;// übergibt die komplette instanz von World um im character zuzugreifen
+        // zugriff = world.character.world
     }
 }
 
