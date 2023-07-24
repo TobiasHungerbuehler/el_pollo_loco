@@ -22,6 +22,8 @@ class World {
         setInterval(() =>{
             this.checkCollision();
             this.checkThrowableObjects();
+            this.hitCheck();
+            this.jumpOnEnemy();
         }, 200)
 
     }
@@ -42,7 +44,42 @@ class World {
         })
     }
 
+    hitCheck(){
+        this.level.enemies.forEach((enemy) => {
+            this.throwableObjects.forEach((bottle) => {
+ 
+                if (bottle.isColliding(enemy)) {
+                    console.log('getroffen')
+                    enemy.die();
+                    // Hier können Sie Code hinzufügen, um zu handhaben, was passiert, 
+                    // wenn eine Flasche einen Feind trifft.
+                }
+            } );
+        });
+    }
+
+    jumpOnEnemy() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                // Prüfen, ob der Charakter von oben auf den Feind gesprungen ist
+                // Diese Überprüfung könnte angepasst werden, je nachdem wie genau Sie festlegen,
+                // wann ein Sprung auf einen Feind als solcher gilt.
+                // Ändern Sie diese Bedingung, um die Sensitivität zu verringern
+                if (this.character.y + (this.character.width / 2) <= enemy.y + (enemy.width / 2) &&
+                    this.character.y + this.character.height <= 400)   {
+                    console.log("gesprungen", this.character.y + this.character.height);
+                    enemy.die();
+                    // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
+                } else {
+                    this.character.hit();
+                    this.statusBar.setHealthPercentage(this.character.energy);
+                }
+            }
+        });
+    }
     
+
+
     
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
@@ -114,4 +151,3 @@ class World {
     }
 }
 
-//  world.draw();
