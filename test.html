@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<body>
+
+    <script>
+
+class DrawableObject {
+    constructor(image) {
+        this.img = image;
+        console.log(this.img); 
+    }
+
+    animate(){
+        console.log('im an animation');
+    }
+}
+
+class StatusBar extends DrawableObject {
+    constructor(image) {
+        super(image);
+        //console.log(this.img); 
+    }
+}
+
+class X extends StatusBar {
+    constructor(image) {
+        super(image);
+        //console.log(this.img); 
+    }
+}
+
+let drawableObject = new DrawableObject("DrawableObject image"); // Gibt "DrawableObject image" aus
+let statusBar = new StatusBar("StatusBar image"); // Gibt "StatusBar image" aus
+let x = new StatusBar("X image"); // Gibt "StatusBar image" aus
+
+x.animate();
+
+
+    </script>
+    
+</body>
+</html>

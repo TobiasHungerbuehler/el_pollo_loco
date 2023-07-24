@@ -2,7 +2,7 @@
 
     height = 400;
     width = 230;
-    y = 60;
+    y = 50;
 
     IMAGES_WALKING = [
 
@@ -20,7 +20,7 @@
     constructor(){
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 400;
+        this.x = 2500;
         this.animate();
     }
 
