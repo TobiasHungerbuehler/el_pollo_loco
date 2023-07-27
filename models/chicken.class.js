@@ -2,6 +2,7 @@ class Chicken extends MovableObject {
     y = 334;
     height = 100
     width = 80
+    isDead = false;
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -41,10 +42,11 @@ class Chicken extends MovableObject {
 
     die() {
         this.stopAnimation();
-        console.log('test');
+        this.isDead = true;
+        console.log('chicken ist tot', this.isDead);
         // Setzt das Bild auf das Bild des toten Huhns
         //this.img = this.imageCache[this.IMAGE_DEAD];
         this.playAnimation(this.IMAGES_DEAD);
-    }
+    } 
     
 }

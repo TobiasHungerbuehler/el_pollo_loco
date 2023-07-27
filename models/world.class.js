@@ -37,9 +37,17 @@ class World {
 
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setHealthPercentage(this.character.energy)
+            if(this.character.isColliding(enemy)){
+                if(enemy.isDead == false){
+                    console.log('lebt', enemy.isDead);
+                    this.character.hit();
+                    this.statusBar.setHealthPercentage(this.character.energy)
+                }
+                if(enemy.isDead == true){
+                    console.log('tot');
+                }
+
+
             };
         })
     }

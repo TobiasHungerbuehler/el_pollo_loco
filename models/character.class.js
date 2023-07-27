@@ -71,7 +71,7 @@ class Character extends MovableObject {
             } 
 
 
-            this.world.camera_x = -this.x +200; // x koordinate an camera_x übergeben
+            this.world.camera_x = -this.x +240; // x koordinate an camera_x übergeben
         }, 1000 / 60)
 
         // bilder animieren
@@ -79,9 +79,10 @@ class Character extends MovableObject {
 
             if(this.dead()){
                 this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            } else if(this.isAboveGround() ){
+             } else if (this.isHurt()) {
+                 this.playAnimation(this.IMAGES_HURT);
+            } 
+            else if(this.isAboveGround() ){
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
 
