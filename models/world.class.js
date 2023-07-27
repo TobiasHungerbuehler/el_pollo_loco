@@ -28,6 +28,7 @@ class World {
 
     }
 
+
     checkThrowableObjects(){
         if(this.keyboard.D){
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100 );
@@ -35,32 +36,29 @@ class World {
         }
     }
 
+
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)){
-                if(enemy.isDead == false){
-                    console.log('lebt', enemy.isDead);
-                    this.character.hit();
-                    this.statusBar.setHealthPercentage(this.character.energy)
-                }
-                if(enemy.isDead == true){
-                    console.log('tot');
-                }
-
-
-            };
+            if(this.character.isColliding(enemy) && !enemy.isDead){
+                this.character.hit();
+                this.statusBar.setHealthPercentage(this.character.energy)
+            }
         })
     }
+    
 
     hitCheck(){
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
  
                 if (bottle.isColliding(enemy)) {
-                    console.log('getroffen')
-                    enemy.die();
-                    // Hier können Sie Code hinzufügen, um zu handhaben, was passiert, 
-                    // wenn eine Flasche einen Feind trifft.
+                    if (enemy instanceof Chicken) {
+                        enemy.die();
+                    }
+                    if (enemy instanceof Endboss) {
+                        enemy.getHurt();
+                    }
+    
                 }
             } );
         });
@@ -69,23 +67,30 @@ class World {
     jumpOnEnemy() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                // Prüfen, ob der Charakter von oben auf den Feind gesprungen ist
-                // Diese Überprüfung könnte angepasst werden, je nachdem wie genau Sie festlegen,
-                // wann ein Sprung auf einen Feind als solcher gilt.
-                // Ändern Sie diese Bedingung, um die Sensitivität zu verringern
-                if (this.character.y + (this.character.width / 2) <= enemy.y + (enemy.width / 2) &&
-                    this.character.y + this.character.height <= 400)   {
-                    console.log("gesprungen", this.character.y + this.character.height);
+                // Überprüfen, ob der Charakter über dem Feind ist und ob er sich nach unten bewegt
+                if (this.character.y + (this.character.height / 2) <= enemy.y && this.character.speedY > 0) {
                     enemy.die();
                     // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
-                } else {
-                    this.character.hit();
-                    this.statusBar.setHealthPercentage(this.character.energy);
-                }
+                } 
             }
         });
     }
     
+
+/*
+    jumpOnEnemy() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                if (this.character.y + (this.character.width / 2) <= enemy.y + (enemy.width / 2) &&
+                    this.character.y + this.character.height <= 405)   {
+                    console.log("gesprungen", this.character.y + this.character.height);
+                    enemy.die();
+                    // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
+                } 
+            }
+        });
+    }
+  */  
 
 
     

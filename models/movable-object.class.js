@@ -39,7 +39,7 @@ class MovableObject extends DrawableObject { // test
         this.img = this.imageCache[path];
         this.currentImage++; 
     }
-
+    
     //Formel zur Kollisionsberechnung 
     isColliding (obj) {
         return this.x + this.width > obj.x && 

@@ -71,7 +71,7 @@ class Character extends MovableObject {
             } 
 
 
-            this.world.camera_x = -this.x +240; // x koordinate an camera_x übergeben
+            this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
 
         // bilder animieren
