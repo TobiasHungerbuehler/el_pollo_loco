@@ -5,6 +5,9 @@
     startX
     endbossHits = 0;
     endbossScene;
+    isBeingHurt = false;
+    isDead = false;
+
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -47,13 +50,14 @@
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    constructor(){
+    constructor(statusBar){
         super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
+        this.statusBar = statusBar;
         this.x = 2500;
         this.startX = this.x;
         this.animate();
@@ -65,52 +69,69 @@
     }
     
 
+    /**
+     * Handle the endboss move.
+     */
     endbossMove() {
         if (this.isDead) {
             return;
         }
-        this.direction = -1;  // -1 für links, 1 für rechts
+        this.direction = -1;  // -1 for left, 1 for right
         this.endbossMoveInterval = setInterval(() => {
-            if (this.direction === 1) { // Wenn die Bewegung nach rechts ist
-                if (this.x < this.startX + 120) {
-                    this.endbossScene = this.IMAGES_ATTACK;
-                    this.x += 40;
-                } else { // Wenn wir das rechte Ende erreicht haben, wechseln wir die Richtung
-                    this.direction = -1;
-                }
-            } else { // Wenn die Bewegung nach links ist
-                if (this.x > this.startX - 120) {
-                    this.endbossScene = this.IMAGES_WALKING;
-                    this.x -= 20;
-                } else { // Wenn wir das linke Ende erreicht haben, wechseln wir die Richtung
-                    this.direction = 1;
-                }
+            if (this.direction === 1) {
+                this.moveRight();
+            } else {
+                this.moveLeft();
             }
         }, 200);
     }
 
-    setEndbossImages() {
-        let lastScene; // speichert die letzte Szene
-    
-        setInterval(() => {
-            if (lastScene !== this.endbossScene) { // wenn sich die Szene geändert hat
-                lastScene = this.endbossScene; // aktualisiere die letzte Szene
-                if (this.endbossScene === this.IMAGES_ALERT) {
-                    this.endbossImages(this.IMAGES_ALERT);
-                } else if (this.endbossScene === this.IMAGES_WALKING) {
-                    this.endbossImages(this.IMAGES_WALKING);
-                } else if (this.endbossScene === this.IMAGES_ATTACK) {
-                    this.endbossImages(this.IMAGES_ATTACK);
-                } else if (this.endbossScene === this.IMAGES_HURT) {
-                    this.endbossImages(this.IMAGES_HURT);
-                } else if (this.endbossScene === this.IMAGES_DEAD) {
-                    this.endbossImages(this.IMAGES_DEAD);
-                }
-            }
-        }, 500);
+    /**
+     * Move the boss to the right.
+     */
+    moveRight() {
+        if (this.x < this.startX + 120) {
+            this.endbossScene = this.IMAGES_ATTACK;
+            this.x += 40;
+        } else { // When we reach the right end, we change the direction
+            this.direction = -1;
+        }
     }
-    
-    
+
+    /**
+     * Move the boss to the left.
+     */
+    moveLeft() {
+        if (this.x > this.startX - 120) {
+            this.endbossScene = this.IMAGES_WALKING;
+            this.x -= 20;
+        } else { // When we reach the left end, we change the direction
+            this.direction = 1;
+        }
+    }
+
+
+
+    // setEndbossImages() {
+    //     let lastScene; // speichert die letzte Szene
+    //     setInterval(() => {
+    //         if (lastScene !== this.endbossScene) { // wenn sich die Szene geändert hat
+    //             lastScene = this.endbossScene; // aktualisiere die letzte Szene
+    //             if (this.endbossScene === this.IMAGES_ALERT) {
+    //                 this.endbossImages(this.IMAGES_ALERT);
+    //             } else if (this.endbossScene === this.IMAGES_WALKING) {
+    //                 this.endbossImages(this.IMAGES_WALKING);
+    //             } else if (this.endbossScene === this.IMAGES_ATTACK) {
+    //                 this.endbossImages(this.IMAGES_ATTACK);
+    //             } else if (this.endbossScene === this.IMAGES_HURT) {
+    //                 this.endbossImages(this.IMAGES_HURT);
+    //             } else if (this.endbossScene === this.IMAGES_DEAD) {
+    //                 this.endbossImages(this.IMAGES_DEAD);
+    //             }
+    //         }
+    //     }, 500);
+    // }
+
     endbossImages(images){
         clearInterval(this.endbossImagesInterval); // Stopp das vorherige endbossImages Intervall
         this.endbossImagesInterval = setInterval(() => {
@@ -118,14 +139,30 @@
         },200)
     }
     
-    isBeingHurt = false;
-    isDead = false;
+    setEndbossImages() {
+        setInterval(() => {
+                if (this.endbossScene === this.IMAGES_ALERT) {
+                    this.playAnimation(this.IMAGES_ALERT);
+                } else if (this.endbossScene === this.IMAGES_WALKING) {
+                    this.playAnimation(this.IMAGES_WALKING);
+                } else if (this.endbossScene === this.IMAGES_ATTACK) {
+                    this.playAnimation(this.IMAGES_ATTACK);
+                } else if (this.endbossScene === this.IMAGES_HURT) {
+                    this.playAnimation(this.IMAGES_HURT);
+                } else if (this.endbossScene === this.IMAGES_DEAD) {
+                    this.playAnimation(this.IMAGES_DEAD);
+                }
+        }, 500);
+    }
+    
+    
+
+    
 
 
     getHurt() {
         if (!this.isBeingHurt) {
             this.isBeingHurt = true;
-    
             clearInterval(this.endbossMoveInterval);
             this.endbossImages(this.IMAGES_HURT);
             setTimeout(() => {
@@ -136,7 +173,7 @@
                 this.isBeingHurt = false; // Reset the state
             }, 800);
             this.endbossHits += 1;
-            console.log(this.endbossHits)
+            this.statusBar.endbossHit();
             if(this.endbossHits >= 3){
                 this.endbossDead();
             }

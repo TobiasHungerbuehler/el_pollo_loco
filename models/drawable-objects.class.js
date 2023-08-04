@@ -7,6 +7,7 @@ class DrawableObject {
     height = 150;
     width = 100;
 
+
     loadImage(path) {
     this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
     this.img.src = path;  // Setze den Pfad als src-Eigenschaft des Image-Objekts
@@ -20,9 +21,27 @@ class DrawableObject {
         })
     }
 
+    draw(ctx) {
+        if (this.img) { // Überprüfe, ob this.img existiert bevor es gezeichnet wird
+            try {
+                ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+            } catch (error) {
+                console.log("Fehler beim Zeichnen des Bildes:", error);
+                console.log(this.img.src);
+            }
+        } else {
+            console.log("Kein Bild zum Zeichnen vorhanden für Objekt", this);
+        }
+    }
+    
+    
+
+
+    /*
     draw(ctx){
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
+    */
 
     drawFrame(ctx){ // zeichnet einen frame um chicken und character
         if(this instanceof Character || this instanceof Chicken){

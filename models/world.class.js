@@ -2,16 +2,17 @@ class World {
     canvas;
     ctx; // standard klasse mit methoden und eigenschaften
     character = new Character(); //pepe
-    camera_x = 0;
-    level = level1;
-    keyboard;
     statusBar = new StatusBar();
+    level;
+    camera_x = 0;
+    keyboard;
     throwableObjects = [];
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
         this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
         this.keyboard = keyboard;
+        this.level = createLevel1(this.statusBar, this.character);
         this.draw();
         this.setWorldId();
         this.run();
@@ -23,7 +24,6 @@ class World {
             this.checkCollision();
             this.checkThrowableObjects();
             this.hitCheck();
-            this.jumpOnEnemy();
         }, 200)
 
     }
@@ -31,7 +31,7 @@ class World {
 
     checkThrowableObjects(){
         if(this.keyboard.D){
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100 );
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character );
             this.throwableObjects.push(bottle);
         }
     }
@@ -40,8 +40,12 @@ class World {
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy) && !enemy.isDead){
-                this.character.hit();
-                this.statusBar.setHealthPercentage(this.character.energy)
+                if(this.character.y >= 65 && this.character.y < 150) { // when jumping on head
+                    enemy.die();
+                } else {
+                    this.character.hit();
+                    this.statusBar.setHealthPercentage(this.character.energy)
+                }
             }
         })
     }
@@ -50,7 +54,6 @@ class World {
     hitCheck(){
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
- 
                 if (bottle.isColliding(enemy)) {
                     if (enemy instanceof Chicken) {
                         enemy.die();
@@ -58,41 +61,26 @@ class World {
                     if (enemy instanceof Endboss) {
                         enemy.getHurt();
                     }
-    
+                    bottle.bottleSplash();
                 }
             } );
         });
     }
 
-    jumpOnEnemy() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                // Überprüfen, ob der Charakter über dem Feind ist und ob er sich nach unten bewegt
-                if (this.character.y + (this.character.height / 2) <= enemy.y && this.character.speedY > 0) {
-                    enemy.die();
-                    // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
-                } 
-            }
-        });
-    }
+    // jumpOnEnemy() {
+    //     this.level.enemies.forEach((enemy) => {
+    //         if (this.character.isColliding(enemy)) {
+    //             console.log('is colliding', this.character.y, enemy.y);
+    //             // Überprüfen, ob der Charakter über dem Feind ist und ob er sich nach unten bewegt
+    //             //if (this.character.y + (this.character.height) >= enemy.y && this.character.speedY > 0) {
+    //             if (this.character.y + this.character.height  <= enemy.y + enemy.height) {
+    //                 enemy.die();
+    //                 // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
+    //             } 
+    //         }
+    //     });
+    // }
     
-
-/*
-    jumpOnEnemy() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                if (this.character.y + (this.character.width / 2) <= enemy.y + (enemy.width / 2) &&
-                    this.character.y + this.character.height <= 405)   {
-                    console.log("gesprungen", this.character.y + this.character.height);
-                    enemy.die();
-                    // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
-                } 
-            }
-        });
-    }
-  */  
-
-
     
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
@@ -106,10 +94,10 @@ class World {
         this.addToMap(this.character);// draw pepe
         this.addObjectToMap(this.throwableObjects);// draw bottles
         
-        
         this.ctx.translate(-this.camera_x, 0); 
-        // ------ Space for fixed Object ------ 
-        this.addToMap(this.statusBar)
+        // ------ Space for fixed Object ------   
+        this.statusBar.drawBars(this.ctx);
+
         this.ctx.translate(this.camera_x, 0);
         
         this.ctx.translate(-this.camera_x, 0); // der context ctx verschiebt sich wieder nach rechts  
@@ -136,7 +124,7 @@ class World {
         }
         
         ob.draw(this.ctx);
-        ob.drawFrame(this.ctx); // Frame um die bildobjekte
+        //ob.drawFrame(this.ctx); // Frame um die bildobjekte
 
         //bild wieder zurück drehen
         if(ob.otherDirection){

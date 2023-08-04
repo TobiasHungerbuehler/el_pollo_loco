@@ -7,7 +7,7 @@ class Cloud extends MovableObject {
 
     constructor() {
         super();
-        this.loadImage('../img/5_background/layers/4_clouds/full.png');
+        this.loadImage('img/5_background/layers/4_clouds/full.png');
         this.startAnimation();
     }
 

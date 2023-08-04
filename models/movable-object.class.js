@@ -1,10 +1,13 @@
 class MovableObject extends DrawableObject { // test
     speed = 0.15;
     otherDirection = false;
+    throwDirectionRight = true;
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    isDead = false;
+
 
     applyGravity() {
         setInterval(() =>{
@@ -68,6 +71,14 @@ class MovableObject extends DrawableObject { // test
         return this.energy == 0;
     }
 
+    outOfGameAnimation(){
+        this.speedY = 10;
+        this.applyGravity();
+        setInterval(() => {
+            this.x += 5;
+            this.y += 10;
+        }, 25)
+    } 
 
 
 

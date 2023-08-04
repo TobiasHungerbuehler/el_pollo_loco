@@ -16,7 +16,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png'
-    ]
+    ];
     
     IMAGES_BOTTLE = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
@@ -27,15 +27,23 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
     ];
 
+    IMAGES_ENDBOSS = [
+        'img/7_statusbars/2_statusbar_endboss/green.png',
+        'img/7_statusbars/2_statusbar_endboss/blue.png',
+        'img/7_statusbars/2_statusbar_endboss/orange.png'
+    ];
+
     percentageHealth = 100;
     percentageCoins = 100;
     percentageBottles = 100;
+    endbossPercentage = 100;
 
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTH);
         this.loadImages(this.IMAGES_COIN);
         this.loadImages(this.IMAGES_BOTTLE);
+        this.loadImages(this.IMAGES_ENDBOSS);
         this.x = 15;
         this.y = 0;
         this.width = 180 ;
@@ -43,6 +51,7 @@ class StatusBar extends DrawableObject {
         this.setHealthPercentage(100);
         this.setCoinsPercentage(100);
         this.setBottlesPercentage(100);
+        this.setEndbossPercentage(100); // Setze den Anfa
     }
 
     setHealthPercentage(percentage) {
@@ -56,7 +65,8 @@ class StatusBar extends DrawableObject {
         let path = this.IMAGES_COIN[this.resolveImageIndex(this.percentageCoins)];
         this.imgCoins = this.imageCache[path];
     }
-
+    
+    
     setBottlesPercentage(percentage) {
         this.percentageBottles = percentage;
         let path = this.IMAGES_BOTTLE[this.resolveImageIndex(this.percentageBottles)];
@@ -78,16 +88,48 @@ class StatusBar extends DrawableObject {
             return 0;
         }
     }
+    
+    
+    setEndbossPercentage(percentage) {
+        this.endbossPercentage = percentage;
+        let path = this.IMAGES_ENDBOSS[this.resolveImageIndex2(this.endbossPercentage)];
+        this.imgEndboss = this.imageCache[path];
+        console.log('setEndboss...', this.imgEndboss)
+    }
+    
+    
 
-    draw(ctx) {
+    resolveImageIndex2(percentage) {
+        if (percentage >= 100) {
+            return 0; // Grün
+        } else if (percentage >= 90) {
+            return 1; // Blau
+        } else {
+            return 2; // Orange
+        }
+    }
+
+    
+    drawBars(ctx) {
         // Zeichne den Health-Balken
         ctx.drawImage(this.imgHealth, this.x, this.y, this.width, this.height);
         // Zeichne den Coins-Balken unter dem Health-Balken
         ctx.drawImage(this.imgCoins, this.x, this.y + this.height, this.width, this.height);
         // Zeichne den Bottles-Balken unter dem Coins-Balken
         ctx.drawImage(this.imgBottles, this.x, this.y + 2 * this.height, this.width, this.height);
+        // Zeichne den Endboss-Balken oben rechts
+        ctx.drawImage(this.imgEndboss, ctx.canvas.width - this.width - 15, this.y, this.width, this.height);
     }
 
-
+    
+    endbossHit() {
+        if (this.endbossPercentage > 0) {
+            this.setEndbossPercentage(this.endbossPercentage - 10);
+        }
+    }
+    
+    
+    
+    
 
 }
