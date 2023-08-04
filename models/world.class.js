@@ -7,12 +7,17 @@ class World {
     camera_x = 0;
     keyboard;
     throwableObjects = [];
+    coinscore = 0;
+
+
+
 
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
         this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
         this.keyboard = keyboard;
         this.level = createLevel1(this.statusBar, this.character);
+        this.pickableObjects = this.level.pickableObjects;
         this.draw();
         this.setWorldId();
         this.run();
@@ -24,9 +29,31 @@ class World {
             this.checkCollision();
             this.checkThrowableObjects();
             this.hitCheck();
+            this.checkPickableObject();
         }, 200)
 
     }
+
+    checkPickableObject(){
+        this.level.pickableObjects.forEach((object, index) => {
+            if(this.character.isColliding(object) && this.character.y <= 0) {
+                if (object instanceof Coin) {
+                    this.coinPicked(object, index)
+                }
+            }
+        })
+    }
+    
+    coinPicked(object, index){
+        object.picked();
+        this.level.pickableObjects.splice(index, 1)
+        this.coinscore += 1;
+        if(this.coinscore >= 5){
+            this.coinscore = 5
+        }
+        this.statusBar.setCoinsPercentage(this.coinscore)
+    }
+    
 
 
     checkThrowableObjects(){
@@ -93,6 +120,7 @@ class World {
         this.addObjectToMap(this.level.clouds);// Clouds    
         this.addToMap(this.character);// draw pepe
         this.addObjectToMap(this.throwableObjects);// draw bottles
+        this.addObjectToMap(this.pickableObjects);// draw bottles
         
         this.ctx.translate(-this.camera_x, 0); 
         // ------ Space for fixed Object ------   

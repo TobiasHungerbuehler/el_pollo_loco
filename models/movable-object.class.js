@@ -36,12 +36,7 @@ class MovableObject extends DrawableObject { // test
         this.otherDirection = true; // bild gespiegelt
     }
     
-    playAnimation(images){
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++; 
-    }
+
     
     //Formel zur Kollisionsberechnung 
     isColliding (obj) {

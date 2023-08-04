@@ -8,6 +8,7 @@ class DrawableObject {
     width = 100;
 
 
+
     loadImage(path) {
     this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
     this.img.src = path;  // Setze den Pfad als src-Eigenschaft des Image-Objekts
@@ -29,12 +30,15 @@ class DrawableObject {
                 console.log("Fehler beim Zeichnen des Bildes:", error);
                 console.log(this.img.src);
             }
-        } else {
-            console.log("Kein Bild zum Zeichnen vorhanden für Objekt", this);
-        }
+        } 
     }
     
-    
+    playAnimation(images){
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++; 
+    }
 
 
     /*

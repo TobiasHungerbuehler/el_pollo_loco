@@ -4,8 +4,7 @@ function createLevel1(statusBar, character){
             new Chicken(),
             new Chicken(),
             new Chicken(),
-            new Chicken(),
-            new Chicken(),
+
             new ChickenSmall(character, 800),
             new ChickenSmall(character, 1300),
             new ChickenSmall(character, 1800),
@@ -42,5 +41,14 @@ function createLevel1(statusBar, character){
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719*3),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719*3)
         ],
+        statusBar,
+        [
+            new Coin(450,100),
+            new Coin(520, 70),
+            new Coin(590,100),
+            new Coin(1450,100),
+            new Coin(1520, 70),
+            new Coin(1590,100)
+        ]
     )
 }

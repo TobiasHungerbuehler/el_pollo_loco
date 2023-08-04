@@ -22,7 +22,7 @@ class ChickenSmall extends MovableObject {
         this.loadImages(this.IMAGES_WALKING) // load all walking images in imageCache
         this.loadImages(this.IMAGES_DEAD) // load all walking images in imageCache
         this.animate();
-        this.speed = 4 + Math.random() * 1.5; // random speed for chicken
+        this.speed = 2 + Math.random() * 1.5; // random speed for chicken
     }
 
 
@@ -32,7 +32,6 @@ class ChickenSmall extends MovableObject {
         this.movementInterval = setInterval(() => {
             this.moveChickenSmall();
         }, 1000 / 60)
-        
         
         this.animationInterval = setInterval(()=> {
             this.playAnimation(this.IMAGES_WALKING)

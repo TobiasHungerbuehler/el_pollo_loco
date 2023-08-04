@@ -83,16 +83,16 @@
             } else {
                 this.moveLeft();
             }
-        }, 200);
+        }, 1000 /60);
     }
 
     /**
      * Move the boss to the right.
      */
     moveRight() {
-        if (this.x < this.startX + 120) {
+        if (this.x < this.startX + 80) {
             this.endbossScene = this.IMAGES_ATTACK;
-            this.x += 40;
+            this.x += 2;
         } else { // When we reach the right end, we change the direction
             this.direction = -1;
         }
@@ -102,9 +102,9 @@
      * Move the boss to the left.
      */
     moveLeft() {
-        if (this.x > this.startX - 120) {
+        if (this.x > this.startX - 80) {
             this.endbossScene = this.IMAGES_WALKING;
-            this.x -= 20;
+            this.x -= 5;
         } else { // When we reach the left end, we change the direction
             this.direction = 1;
         }

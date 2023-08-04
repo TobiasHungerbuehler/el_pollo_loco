@@ -49,7 +49,7 @@ class StatusBar extends DrawableObject {
         this.width = 180 ;
         this.height = 50; // Ändere die Höhe zurück zu 70
         this.setHealthPercentage(100);
-        this.setCoinsPercentage(100);
+        this.setCoinsPercentage(0);
         this.setBottlesPercentage(100);
         this.setEndbossPercentage(100); // Setze den Anfa
     }
@@ -60,9 +60,8 @@ class StatusBar extends DrawableObject {
         this.imgHealth = this.imageCache[path];
     }
 
-    setCoinsPercentage(percentage) {
-        this.percentageCoins = percentage;
-        let path = this.IMAGES_COIN[this.resolveImageIndex(this.percentageCoins)];
+    setCoinsPercentage(index) {
+        let path = this.IMAGES_COIN[index];
         this.imgCoins = this.imageCache[path];
     }
     

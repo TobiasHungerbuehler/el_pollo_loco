@@ -19,18 +19,29 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_WALKING) // load all walking images in imageCache
         this.loadImages(this.IMAGES_DEAD) // load all walking images in imageCache
         this.animate();
-        this.speed = 3 + Math.random() * 0.55; // random speed for chicken
+        this.speed = 1.5 + Math.random() * 0.55; // random speed for chicken
     }
 
     animate(){
-        //Chicken walking left
+        this.direction = -1;  // -1 bedeutet links, 1 bedeutet rechts
         this.movementInterval = setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60) 
-    
+            this.moveChicken();
+        }, 1000 / 60)
         this.animationInterval = setInterval(()=> {
             this.playAnimation(this.IMAGES_WALKING)
         }, 100)
+    }
+
+
+    moveChicken() {
+        this.x += this.speed * this.direction;
+        if(this.x <= 50) {
+            this.direction = 1;
+            this.otherDirection = true;
+        } else if(this.x >= 2500) {
+            this.direction = -1;
+            this.otherDirection = false;
+        }
     }
     
     stopAnimation() {
