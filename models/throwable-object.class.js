@@ -9,14 +9,16 @@ class ThrowableObject extends MovableObject{
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    constructor(x,y, character){
+    constructor(x,y, character, world, statusBar){
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_SPLASH);
         this.character = character;
         this.x = x;
         this.y = y;
-        this.height = 50;
-        this.width = 60;
+        this.height = 60;
+        this.width = 70;
+        this.statusBar = statusBar;
+        this.world = world;
         this.throw();
     }
 
@@ -32,6 +34,12 @@ class ThrowableObject extends MovableObject{
                 this.x -= 10;
             }, 25)
         }
+        this.world.bottlescore -= 1; // Decrease bottlescore by 1
+        let imgIndex =  this.world.bottlescore;
+        if(imgIndex >= 5){
+            imgIndex = 5;
+        }
+        this.statusBar.setBottlesPercentage(imgIndex)
     }
     
 

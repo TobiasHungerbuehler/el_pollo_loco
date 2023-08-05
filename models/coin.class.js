@@ -20,20 +20,14 @@ class Coin extends DrawableObject {
     }
 
     animate(){
-        console.log('animation')
         this.animationInterval = setInterval(()=> {
             this.playAnimation(this.IMAGES_COIN);
         }, 500 )
     }
 
-    picked(){
-        this.speedY = 10;
-        setInterval(() => {
-            this.height -= 20
-            this.width  -= 20
-            this.y -= 5;
-        }, 25)
-    }
+
+
+
 
 
 

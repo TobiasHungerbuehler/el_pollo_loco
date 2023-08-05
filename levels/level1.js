@@ -48,7 +48,16 @@ function createLevel1(statusBar, character){
             new Coin(590,100),
             new Coin(1450,100),
             new Coin(1520, 70),
-            new Coin(1590,100)
+            new Coin(1590,100),
+            new Bottle(300),
+            new Bottle(520),
+            new Bottle(780),
+            new Bottle(900),
+            new Bottle(1200),
+            new Bottle(1800),
+            new Bottle(1920),
+            new Bottle(2030)
+
         ]
     )
 }

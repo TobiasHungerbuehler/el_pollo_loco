@@ -8,6 +8,7 @@ class World {
     keyboard;
     throwableObjects = [];
     coinscore = 0;
+    bottlescore = 0;
 
 
 
@@ -36,17 +37,36 @@ class World {
 
     checkPickableObject(){
         this.level.pickableObjects.forEach((object, index) => {
-            if(this.character.isColliding(object) && this.character.y <= 0) {
-                if (object instanceof Coin) {
+
+            
+            if(this.character.isColliding(object)) {
+                if (object instanceof Coin && this.character.y <= 0) {
                     this.coinPicked(object, index)
+                }
+                if (object instanceof Bottle ) {
+                    this.bottlePicked(object, index)
+                    this.coinscore += 1;
                 }
             }
         })
     }
     
+
+    bottlePicked(object, index) {
+        object.picked();
+        this.level.pickableObjects.splice(index, 1);
+        this.bottlescore += 1
+        let imgIndex = this.bottlescore;
+        if(imgIndex >= 5){
+            imgIndex = 5;
+        }
+        this.statusBar.setBottlesPercentage(imgIndex)
+    }
+
+
     coinPicked(object, index){
         object.picked();
-        this.level.pickableObjects.splice(index, 1)
+        this.level.pickableObjects.splice(index, 1);
         this.coinscore += 1;
         if(this.coinscore >= 5){
             this.coinscore = 5
@@ -57,8 +77,8 @@ class World {
 
 
     checkThrowableObjects(){
-        if(this.keyboard.D){
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character );
+        if(this.keyboard.D && this.bottlescore > 0){
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar);
             this.throwableObjects.push(bottle);
         }
     }

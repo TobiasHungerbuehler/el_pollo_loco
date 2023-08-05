@@ -40,6 +40,14 @@ class DrawableObject {
         this.currentImage++; 
     }
 
+    picked(){
+        this.speedY = 10;
+        setInterval(() => {
+            this.height -= 20
+            this.width  -= 20
+            this.y -= 10;
+        }, 25)
+    }
 
     /*
     draw(ctx){
