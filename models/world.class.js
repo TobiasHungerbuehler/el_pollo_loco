@@ -9,8 +9,8 @@ class World {
     throwableObjects = [];
     coinscore = 0;
     bottlescore = 0;
-
-
+    pickedBottleIndices = [];
+    pickedCoinIndices = [];
 
 
     constructor(canvas, keyboard){
@@ -35,38 +35,29 @@ class World {
 
     }
 
+
+    
     checkPickableObject(){
         this.level.pickableObjects.forEach((object, index) => {
-
-            
             if(this.character.isColliding(object)) {
                 if (object instanceof Coin && this.character.y <= 0) {
-                    this.coinPicked(object, index)
+                    if (!this.pickedCoinIndices.includes(index)){
+                        this.coinPicked(object, index);  
+                    }
                 }
-                if (object instanceof Bottle ) {
-                    this.bottlePicked(object, index)
-                    this.coinscore += 1;
+                if (object instanceof Bottle) {
+                    if (!this.pickedBottleIndices.includes(index)){
+                        this.bottlePicked(object, index);
+                    }
                 }
             }
         })
     }
     
 
-    bottlePicked(object, index) {
-        object.picked();
-        this.level.pickableObjects.splice(index, 1);
-        this.bottlescore += 1
-        let imgIndex = this.bottlescore;
-        if(imgIndex >= 5){
-            imgIndex = 5;
-        }
-        this.statusBar.setBottlesPercentage(imgIndex)
-    }
-
-
     coinPicked(object, index){
-        object.picked();
-        this.level.pickableObjects.splice(index, 1);
+        this.pickedCoinIndices.push(index);
+        object.picked(object);
         this.coinscore += 1;
         if(this.coinscore >= 5){
             this.coinscore = 5
@@ -74,6 +65,18 @@ class World {
         this.statusBar.setCoinsPercentage(this.coinscore)
     }
     
+    
+    
+    bottlePicked(object, index) {
+        this.pickedBottleIndices.push(index);
+        object.picked(object);
+        this.bottlescore += 1;
+        let imgIndex = this.bottlescore;
+        if(imgIndex >= 5){
+            imgIndex = 5;
+        }
+        this.statusBar.setBottlesPercentage(imgIndex)
+    }
 
 
     checkThrowableObjects(){
@@ -114,19 +117,6 @@ class World {
         });
     }
 
-    // jumpOnEnemy() {
-    //     this.level.enemies.forEach((enemy) => {
-    //         if (this.character.isColliding(enemy)) {
-    //             console.log('is colliding', this.character.y, enemy.y);
-    //             // Überprüfen, ob der Charakter über dem Feind ist und ob er sich nach unten bewegt
-    //             //if (this.character.y + (this.character.height) >= enemy.y && this.character.speedY > 0) {
-    //             if (this.character.y + this.character.height  <= enemy.y + enemy.height) {
-    //                 enemy.die();
-    //                 // Fügen Sie hier den Code hinzu, der ausgeführt werden soll, wenn der Charakter auf den Feind springt
-    //             } 
-    //         }
-    //     });
-    // }
     
     
     draw() {
@@ -141,7 +131,8 @@ class World {
         this.addToMap(this.character);// draw pepe
         this.addObjectToMap(this.throwableObjects);// draw bottles
         this.addObjectToMap(this.pickableObjects);// draw bottles
-        
+
+    
         this.ctx.translate(-this.camera_x, 0); 
         // ------ Space for fixed Object ------   
         this.statusBar.drawBars(this.ctx);

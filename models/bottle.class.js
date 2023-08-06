@@ -2,6 +2,7 @@ class Bottle extends DrawableObject {
     y = 365;
     x = 300;
 
+
     IMAGES_BOTTLE  = [
         'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
@@ -15,6 +16,12 @@ class Bottle extends DrawableObject {
         this.height = 60;
         this.width = 70;
     }
+
+
+
+
+
+
 
 
 

@@ -1,12 +1,6 @@
 Aufgaben
-
 - Start Screen
 - sounds und musik
-- Coins einsammeln
--  Flaschen einsammeln
-- Flaschen nur werfen wenn sie vorhanden sind
-. collision für flaschen
-- Endgegner besiegen
 - Game Over Screen
 - Fullscreen
 - Erklärung welche tasten
