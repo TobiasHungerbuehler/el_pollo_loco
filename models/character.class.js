@@ -3,6 +3,9 @@ class Character extends MovableObject {
     height = 280;
     y =  155;
     speed = 7;
+    characterImageAnimation;
+    characterMoveAnimation;
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -56,7 +59,7 @@ class Character extends MovableObject {
     animate(){
 
         // bewegen
-        setInterval(()=> {
+        this.characterMoveAnimation = setInterval(()=> {
             this.walking_sound.pause();
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){ 
                 this.moveRight();
@@ -71,36 +74,49 @@ class Character extends MovableObject {
             if(this.world.keyboard.SPACE && !this.isAboveGround()){
                 this.jump();       
             } 
-
-
             this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
 
         // bilder animieren
-        setInterval(()=> {
-
+        this.characterImageAnimation = setInterval(()=> {
             if(this.dead()){
-                this.playAnimation(this.IMAGES_DEAD);
+                gameOverScreen();
+                this.CharacterEndAnimation();
              } else if (this.isHurt()) {
                  this.playAnimation(this.IMAGES_HURT);
             } 
             else if(this.isAboveGround() ){
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
-
                 if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){ 
                     this.playAnimation(this.IMAGES_WALKING)
                 }
-
             }
-
-
         }, 50)
     }
 
     jump(){
         this.speedY = 30;
     }
+
+    // 
+    CharacterEndAnimation() {
+        this.characterEndloop();
+        clearInterval(this.characterImageAnimation);
+        clearInterval(this.characterMoveAnimation);
+    }
+    
+    
+    characterEndloop(){
+        for (let i = 0; i < this.IMAGES_DEAD.length - 1; i++) {
+            setTimeout(() => {
+                let path = this.IMAGES_DEAD[i];
+                this.img = this.imageCache[path];
+            }, i * 30);
+        }
+    }
+    
+
 
 
 

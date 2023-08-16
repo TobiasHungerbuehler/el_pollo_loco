@@ -1,3 +1,7 @@
+/**
+ * Represents a small chicken enemy in the game.
+ * @extends MovableObject
+ */
 class ChickenSmall extends MovableObject {
     y = 0;
     height = 60;
@@ -14,52 +18,98 @@ class ChickenSmall extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
+
+    /**
+     * Initializes a new instance of the ChickenSmall class.
+     * @param {Character} character - The player's character.
+     * @param {number} startX - The starting x-coordinate of the small chicken.
+     */
     constructor(character, startX) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.character = character;
-        this.startX = startX //800; // startpunk der animation
-        this.x = this.startX ;//(Math.random() * 2600) + 600; // Zufällige Position  + position character
-        this.loadImages(this.IMAGES_WALKING) // load all walking images in imageCache
-        this.loadImages(this.IMAGES_DEAD) // load all walking images in imageCache
+        this.startX = startX 
+        this.x = this.startX;
+        this.loadImages(this.IMAGES_WALKING) 
+        this.loadImages(this.IMAGES_DEAD) 
         this.animate();
-        this.speed = 2 + Math.random() * 1.5; // random speed for chicken
+        this.speed = 2 + Math.random() * 1.5; 
     }
 
 
+    /**
+     * Animates the small chicken, making it move and play its walking animation.
+     */
     animate(){
         this.isMoving = false;
         this.direction = -1;  // -1 bedeutet links, 1 bedeutet rechts
         this.movementInterval = setInterval(() => {
             this.moveChickenSmall();
         }, 1000 / 60)
-        
         this.animationInterval = setInterval(()=> {
             this.playAnimation(this.IMAGES_WALKING)
         }, 100)
     }
 
 
-    moveChickenSmall(){
-        if(this.character.x >= this.x - 500){
-            this.isMoving = true;
+    /**
+     * Moves the small chicken based on its speed and direction. The chicken moves in a parabolic path.
+     */
+    moveChickenSmall() {
+        if(this.character.x >= this.x - 500) {
+            this.startMoving();
         }
-        if(this.isMoving){
-            this.x += this.speed * this.direction;
-            this.y = 0.01 * Math.pow(this.x - this.startX , 2); //Parabelbewegung
-            if(this.y > 355){
-                this.y = 355;
-            }
-            if(this.x <= 50) {
-                this.direction = 1;
-                this.otherDirection = true;
-            } else if(this.x >= 2500) {
-                this.direction = -1;
-                this.otherDirection = false;
-            }
+        if(this.isMoving) {
+            this.updatePosition();
+            this.applyParabolicMovement();
+            this.checkBounds();
         }
     }
 
 
+    /**
+     * Starts the small chicken's movement.
+     */
+    startMoving() {
+        this.isMoving = true;
+    }
+
+    
+    /**
+     * Updates the small chicken's position based on its speed and direction.
+     */
+    updatePosition() {
+        this.x += this.speed * this.direction;
+    }
+
+
+    /**
+     * Applies a parabolic movement to the small chicken's y-coordinate.
+     */
+    applyParabolicMovement() {
+        this.y = 0.01 * Math.pow(this.x - this.startX , 2);
+        if(this.y > 355){
+            this.y = 355;
+        }
+    }
+
+
+    /**
+     * Checks and updates the small chicken's direction based on its position.
+     */
+    checkBounds() {
+        if(this.x <= 50) {
+            this.direction = 1;
+            this.otherDirection = true;
+        } else if(this.x >= 2500) {
+            this.direction = -1;
+            this.otherDirection = false;
+        }
+    }
+
+
+    /**
+     * Kills the small chicken, stopping its movement and playing its death animation.
+     */
     die() {
         clearInterval(this.movementInterval);
         this.isDead = true;

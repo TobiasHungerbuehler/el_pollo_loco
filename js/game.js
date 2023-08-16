@@ -6,8 +6,10 @@ function init() {
     canvas = document.getElementById('canvas'); // canvas html element in variable
     world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
     world.draw();
+}
 
-
+function gameOverScreen(){
+  console.log('game over')
 }
 
 window.addEventListener('keydown', (event) => {

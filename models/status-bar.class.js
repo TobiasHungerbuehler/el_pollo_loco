@@ -33,11 +33,6 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/orange.png'
     ];
 
-    // percentageHealth = 100;
-    // percentageCoins = 100;
-    // percentageBottles = 100;
-    // endbossPercentage = 100;
-
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTH);
@@ -53,6 +48,7 @@ class StatusBar extends DrawableObject {
         this.setBottlesPercentage(0);
         this.setEndbossPercentage(100); // Setze den Anfa
     }
+
 
     setHealthPercentage(percentage) {
         this.percentageHealth = percentage;
@@ -92,7 +88,6 @@ class StatusBar extends DrawableObject {
         this.endbossPercentage = percentage;
         let path = this.IMAGES_ENDBOSS[this.resolveImageIndex2(this.endbossPercentage)];
         this.imgEndboss = this.imageCache[path];
-        console.log('setEndboss...', this.imgEndboss)
     }
     
     

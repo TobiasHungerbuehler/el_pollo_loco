@@ -1,6 +1,6 @@
 class World {
     canvas;
-    ctx; // standard klasse mit methoden und eigenschaften
+    ctx; 
     character = new Character(); //pepe
     statusBar = new StatusBar();
     level;
@@ -36,7 +36,6 @@ class World {
     }
 
 
-    
     checkPickableObject(){
         this.level.pickableObjects.forEach((object, index) => {
             if(this.character.isColliding(object)) {
@@ -65,8 +64,7 @@ class World {
         this.statusBar.setCoinsPercentage(this.coinscore)
     }
     
-    
-    
+     
     bottlePicked(object, index) {
         this.pickedBottleIndices.push(index);
         object.picked(object);

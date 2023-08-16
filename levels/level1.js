@@ -1,10 +1,25 @@
+/**
+ * Creates and returns an instance of the first level in the game.
+ *
+ * The function initializes the enemies, clouds, background objects, status bar, and pickable objects
+ * (coins and bottles) that will appear in the first level of the game. It then returns an instance of the Level class,
+ * which is populated with these elements.
+ *
+ * @function createLevel1
+ * @param {StatusBar} statusBar - An instance of the StatusBar class that displays the player's current status.
+ * @param {Character} character - An instance of the Character class representing the player's character.
+ * @returns {Level} - An instance of the Level class representing the first level of the game.
+ * 
+ * @example
+ * const level1 = createLevel1(statusBar, character);
+ */
+
 function createLevel1(statusBar, character){
     return new Level(
         [
             new Chicken(),
             new Chicken(),
             new Chicken(),
-
             new ChickenSmall(character, 800),
             new ChickenSmall(character, 1300),
             new ChickenSmall(character, 1800),

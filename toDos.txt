@@ -1,6 +1,0 @@
-Aufgaben
-- Start Screen
-- sounds und musik
-- Game Over Screen
-- Fullscreen
-- Erklärung welche tasten

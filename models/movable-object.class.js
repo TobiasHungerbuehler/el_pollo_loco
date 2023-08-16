@@ -58,7 +58,7 @@ class MovableObject extends DrawableObject { // test
 
     isHurt(){
         let timepassed = new Date().getTime() -this.lastHit; // Difference in ms
-        timepassed = timepassed / 1000;
+        timepassed = timepassed / 400;
         return timepassed < 1;
     }
 
