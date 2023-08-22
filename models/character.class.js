@@ -44,7 +44,8 @@ class Character extends MovableObject {
     ];
 
     world;
-    walking_sound = new Audio('audio/running.mp3');
+    walking_sound = new Audio('audio/running2.mp3');
+    jump_sound = new Audio('audio/jump.mp3');
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png')
@@ -73,6 +74,7 @@ class Character extends MovableObject {
             }
             if(this.world.keyboard.SPACE && !this.isAboveGround()){
                 this.jump();       
+                this.jump_sound.play();
             } 
             this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
@@ -101,13 +103,13 @@ class Character extends MovableObject {
 
     // 
     CharacterEndAnimation() {
-        this.characterEndloop();
+        this.characterDieAnimation();
         clearInterval(this.characterImageAnimation);
         clearInterval(this.characterMoveAnimation);
     }
     
     
-    characterEndloop(){
+    characterDieAnimation(){
         for (let i = 0; i < this.IMAGES_DEAD.length - 1; i++) {
             setTimeout(() => {
                 let path = this.IMAGES_DEAD[i];

@@ -58,7 +58,7 @@
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.statusBar = statusBar;
-        this.x = 2500;
+        this.x = 400//2500;
         this.startX = this.x;
         this.animate();
     }
@@ -111,27 +111,6 @@
     }
 
 
-
-    // setEndbossImages() {
-    //     let lastScene; // speichert die letzte Szene
-    //     setInterval(() => {
-    //         if (lastScene !== this.endbossScene) { // wenn sich die Szene geändert hat
-    //             lastScene = this.endbossScene; // aktualisiere die letzte Szene
-    //             if (this.endbossScene === this.IMAGES_ALERT) {
-    //                 this.endbossImages(this.IMAGES_ALERT);
-    //             } else if (this.endbossScene === this.IMAGES_WALKING) {
-    //                 this.endbossImages(this.IMAGES_WALKING);
-    //             } else if (this.endbossScene === this.IMAGES_ATTACK) {
-    //                 this.endbossImages(this.IMAGES_ATTACK);
-    //             } else if (this.endbossScene === this.IMAGES_HURT) {
-    //                 this.endbossImages(this.IMAGES_HURT);
-    //             } else if (this.endbossScene === this.IMAGES_DEAD) {
-    //                 this.endbossImages(this.IMAGES_DEAD);
-    //             }
-    //         }
-    //     }, 500);
-    // }
-
     endbossImages(images){
         clearInterval(this.endbossImagesInterval); // Stopp das vorherige endbossImages Intervall
         this.endbossImagesInterval = setInterval(() => {
@@ -139,6 +118,7 @@
         },200)
     }
     
+
     setEndbossImages() {
         setInterval(() => {
                 if (this.endbossScene === this.IMAGES_ALERT) {
@@ -152,14 +132,10 @@
                 } else if (this.endbossScene === this.IMAGES_DEAD) {
                     this.playAnimation(this.IMAGES_DEAD);
                 }
-        }, 500);
+        }, 50);
     }
     
     
-
-    
-
-
     getHurt() {
         if (!this.isBeingHurt) {
             this.isBeingHurt = true;

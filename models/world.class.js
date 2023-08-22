@@ -8,7 +8,7 @@ class World {
     keyboard;
     throwableObjects = [];
     coinscore = 0;
-    bottlescore = 0;
+    bottlescore = 20;
     pickedBottleIndices = [];
     pickedCoinIndices = [];
 
