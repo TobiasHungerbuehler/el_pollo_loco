@@ -1,13 +1,18 @@
+ /**
+ * Represents the Endboss character, an extended version of MovableObject.
+ * @extends MovableObject
+ */
  class Endboss extends MovableObject{
     height = 400;
     width = 230;
     y = 50;
     startX
     endbossHits = 0;
-    endbossScene;
-    isBeingHurt = false;
-    isDead = false;
-
+    endbossInterval = 0;
+    isHurt = false;
+    lastHurtTime = 0;
+    hurtCooldown = 1200; 
+    currentTime = 0;
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -50,6 +55,11 @@
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+
+    /**
+     * Creates an instance of Endboss.
+     * @param {Object} statusBar - The status bar associated with the Endboss.
+     */
     constructor(statusBar){
         super().loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_ALERT);
@@ -58,110 +68,112 @@
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.statusBar = statusBar;
-        this.x = 400//2500;
+        this.x = 2500;
         this.startX = this.x;
         this.animate();
     }
 
+
+    /**
+     * Initiates the Endboss animation.
+     */
+        anima
     animate(){
-        this.endbossMove();
-        this.setEndbossImages();
+        this.attack();
     }
-    
+
 
     /**
-     * Handle the endboss move.
+     * Clears the scene from any ongoing animations or timeouts.
      */
-    endbossMove() {
-        if (this.isDead) {
-            return;
-        }
-        this.direction = -1;  // -1 for left, 1 for right
-        this.endbossMoveInterval = setInterval(() => {
-            if (this.direction === 1) {
-                this.moveRight();
-            } else {
-                this.moveLeft();
+    clearScene(){
+        clearInterval(this.endbossInterval);
+        clearTimeout(this.sceneTimeout); // Fügen Sie diese Zeile hinzu, um den aktuellen Timeout zu löschen
+    }
+
+
+    /**
+     * Handles scene animations with a specified speed and then triggers the next function.
+     * @param {string[]} array - The animation frames.
+     * @param {Function} nextFunction - The next function to execute after the animation.
+     * @param {number} speed - The speed of the animation.
+     */
+    sceneInterval(array, nextFunction, speed) {
+        this.clearScene()
+        this.endbossInterval = setInterval(() => {
+            this.playAnimation(array);
+            this.x += speed;
+        }, 200);
+        this.sceneTimeout = setTimeout(() => { 
+            if (!this.isHurt) { 
+                nextFunction();
             }
-        }, 1000 /60);
+        }, 1600);
     }
+
 
     /**
-     * Move the boss to the right.
+     * Executes the attack animation.
      */
-    moveRight() {
-        if (this.x < this.startX + 80) {
-            this.endbossScene = this.IMAGES_ATTACK;
-            this.x += 2;
-        } else { // When we reach the right end, we change the direction
-            this.direction = -1;
-        }
+    attack(){
+        this.isHurt = false;
+        this.sceneInterval(this.IMAGES_WALKING, this.alert.bind(this), -15);
     }
+    
 
     /**
-     * Move the boss to the left.
+     * Executes the alert animation.
      */
-    moveLeft() {
-        if (this.x > this.startX - 80) {
-            this.endbossScene = this.IMAGES_WALKING;
-            this.x -= 5;
-        } else { // When we reach the left end, we change the direction
-            this.direction = 1;
-        }
-    }
-
-
-    endbossImages(images){
-        clearInterval(this.endbossImagesInterval); // Stopp das vorherige endbossImages Intervall
-        this.endbossImagesInterval = setInterval(() => {
-            this.playAnimation(images)
-        },200)
+    alert(){
+        this.isHurt = false;
+        this.sceneInterval(this.IMAGES_ALERT, this.walking.bind(this), 0);
     }
     
 
-    setEndbossImages() {
-        setInterval(() => {
-                if (this.endbossScene === this.IMAGES_ALERT) {
-                    this.playAnimation(this.IMAGES_ALERT);
-                } else if (this.endbossScene === this.IMAGES_WALKING) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                } else if (this.endbossScene === this.IMAGES_ATTACK) {
-                    this.playAnimation(this.IMAGES_ATTACK);
-                } else if (this.endbossScene === this.IMAGES_HURT) {
-                    this.playAnimation(this.IMAGES_HURT);
-                } else if (this.endbossScene === this.IMAGES_DEAD) {
-                    this.playAnimation(this.IMAGES_DEAD);
-                }
-        }, 50);
+    /**
+     * Executes the walking animation.
+     */
+    walking(){
+        this.isHurt = false;
+        this.sceneInterval(this.IMAGES_WALKING, this.attack.bind(this), 15);
     }
     
     
+    /**
+     * Handles the logic when the Endboss gets hurt.
+     */
     getHurt() {
-        if (!this.isBeingHurt) {
-            this.isBeingHurt = true;
-            clearInterval(this.endbossMoveInterval);
-            this.endbossImages(this.IMAGES_HURT);
-            setTimeout(() => {
-                clearInterval(this.endbossImagesInterval); // Stopp das "Hurt"-Intervall
-                if (!this.isDead) {
-                    this.endbossMove();
-                }
-                this.isBeingHurt = false; // Reset the state
-            }, 800);
-            this.endbossHits += 1;
-            this.statusBar.endbossHit();
-            if(this.endbossHits >= 3){
-                this.endbossDead();
-            }
+        this.currentTime = Date.now();
+        if (this.currentTime - this.lastHurtTime < this.hurtCooldown) {
+            return; 
+        }
+        this.isHurt = true; 
+        this.endbossHurtAnimations()
+        this.lastHurtTime = this.currentTime;
+        this.checkWin()
+    }
+
+
+    /**
+     * Animates the hurt sequences of the Endboss and checks win conditions.
+     */
+    endbossHurtAnimations(){
+        this.clearScene()
+        this.endbossHits += 1;
+        console.log('endbossHits' , this.endbossHits)
+        this.statusBar.endbossHit();
+        this.sceneInterval(this.IMAGES_HURT, this.attack.bind(this), 0);
+        this.isHurt = false;
+    }
+
+
+    /**
+     * Checks the win conditions.
+     */
+    checkWin(){
+        if (this.endbossHits >= 3) {
+            this.clearScene()
+            this.dieAnimation(this.IMAGES_DEAD);
         }
     }
-    
-     
-    endbossDead() {
-        this.isDead = true;
-        this.endbossScene = this.IMAGES_DEAD;
-    }
-    
-
-
- } 
+} 

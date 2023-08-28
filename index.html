@@ -25,11 +25,18 @@
     <script src="./js/game.js"></script>
     <script src="./levels/level1.js"></script>
 </head>
-<body onload="init()">
+<body onload="init()" id="body">
 
     <h1>El Pollo Loco</h1>
 
     <canvas width="720" height="480" id="canvas"></canvas>
+
+    <div class="overlay" id="overlay">
+        <form onsubmit="startGame(); return false;">
+            <button type="submit">Start</button>
+        </form>
+        <button onclick="muteAllAudio()">Ton an/aus</button>
+    </div>
     
 
 </body>

@@ -8,6 +8,7 @@ class Bottle extends DrawableObject {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ];
 
+
     constructor(x){
         super();
         let randomIndex = Math.floor(Math.random() * this.IMAGES_BOTTLE.length);
@@ -16,16 +17,5 @@ class Bottle extends DrawableObject {
         this.height = 60;
         this.width = 70;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

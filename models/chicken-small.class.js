@@ -7,6 +7,7 @@ class ChickenSmall extends MovableObject {
     height = 60;
     width = 60;
     speed = 0.2
+    fallingSoundON = true;
     
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -17,6 +18,9 @@ class ChickenSmall extends MovableObject {
     IMAGES_DEAD = [
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
+
+    die_sound = new Audio('audio/dieSmallChicken.mp3');
+    falling_sound = new Audio('audio/falling3.mp3');
 
 
     /**
@@ -41,7 +45,7 @@ class ChickenSmall extends MovableObject {
      */
     animate(){
         this.isMoving = false;
-        this.direction = -1;  // -1 bedeutet links, 1 bedeutet rechts
+        this.direction = -1;  
         this.movementInterval = setInterval(() => {
             this.moveChickenSmall();
         }, 1000 / 60)
@@ -71,6 +75,10 @@ class ChickenSmall extends MovableObject {
      */
     startMoving() {
         this.isMoving = true;
+        if(this.fallingSoundON){
+            this.falling_sound.play();
+            this.fallingSoundON = false;
+        }
     }
 
     
@@ -115,6 +123,7 @@ class ChickenSmall extends MovableObject {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
         this.outOfGameAnimation();
+        this.die_sound.play();
     } 
 
 

@@ -1,16 +1,40 @@
 let canvas;
 let world; 
 let keyboard = new Keyboard();
+let music = new Audio('audio/music.mp3');
+window.allAudio = [];
+
+
+function muteAllAudio() {
+  for (let audio of allAudio) {
+    audio.muted = !audio.muted;  // Toggle zwischen muted und unmuted
+  }
+}
+
 
 function init() {
-    canvas = document.getElementById('canvas'); // canvas html element in variable
-    world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
-    world.draw();
+  document.getElementById('overlay').classList.remove('d-none');
+  allAudio.push(music);
 }
 
+
+
+
+function startGame(){
+  document.querySelector('.overlay').remove();
+  canvas = document.getElementById('canvas'); // canvas html element in variable
+  world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
+  world.draw();
+  music.play();
+}
+
+
+
 function gameOverScreen(){
+  music.pause();
   console.log('game over')
 }
+
 
 window.addEventListener('keydown', (event) => {
     if (event.keyCode === 37) {

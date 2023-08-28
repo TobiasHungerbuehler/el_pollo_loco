@@ -44,8 +44,10 @@ class Character extends MovableObject {
     ];
 
     world;
-    walking_sound = new Audio('audio/running2.mp3');
-    jump_sound = new Audio('audio/jump.mp3');
+    walking_sound = new Audio('audio/running3.mp3');
+    jump_sound = new Audio('audio/jump2.mp3');
+    hurt_sound = new Audio('audio/character_hurt.mp3');
+
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png')
@@ -53,6 +55,9 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING) // load all walking images in imageCache
         this.loadImages(this.IMAGES_DEAD) // load all walking images in imageCache
         this.loadImages(this.IMAGES_HURT) // load all walking images in imageCache
+        window.allAudio.push(this.walking_sound);
+        window.allAudio.push(this.jump_sound);
+        window.allAudio.push(this.hurt_sound);
         this.animate();     
         this.applyGravity();
     }
@@ -84,8 +89,10 @@ class Character extends MovableObject {
             if(this.dead()){
                 gameOverScreen();
                 this.CharacterEndAnimation();
+                //stop Music
              } else if (this.isHurt()) {
                  this.playAnimation(this.IMAGES_HURT);
+                 this.hurt_sound.play();
             } 
             else if(this.isAboveGround() ){
                 this.playAnimation(this.IMAGES_JUMPING);
@@ -103,20 +110,13 @@ class Character extends MovableObject {
 
     // 
     CharacterEndAnimation() {
-        this.characterDieAnimation();
+        this.dieAnimation(this.IMAGES_DEAD);
         clearInterval(this.characterImageAnimation);
         clearInterval(this.characterMoveAnimation);
     }
     
     
-    characterDieAnimation(){
-        for (let i = 0; i < this.IMAGES_DEAD.length - 1; i++) {
-            setTimeout(() => {
-                let path = this.IMAGES_DEAD[i];
-                this.img = this.imageCache[path];
-            }, i * 30);
-        }
-    }
+
     
 
 

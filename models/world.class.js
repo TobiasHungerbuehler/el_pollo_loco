@@ -12,7 +12,7 @@ class World {
     pickedBottleIndices = [];
     pickedCoinIndices = [];
 
-
+    
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
         this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
@@ -75,7 +75,7 @@ class World {
         }
         this.statusBar.setBottlesPercentage(imgIndex)
     }
-
+    
 
     checkThrowableObjects(){
         if(this.keyboard.D && this.bottlescore > 0){
@@ -84,7 +84,7 @@ class World {
         }
     }
 
-
+    // character collisions
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy) && !enemy.isDead){

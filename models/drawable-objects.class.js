@@ -40,7 +40,6 @@ class DrawableObject {
 
 
     picked(object){
-        //console.log(object)
         this.speedY = 10;
         setInterval(() => {
             this.height -= 5;

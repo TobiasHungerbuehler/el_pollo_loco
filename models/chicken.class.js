@@ -17,6 +17,8 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
+    die_sound = new Audio('audio/dieChicken.mp3');
+
 
     /**
     * Initializes a new instance of the Chicken class.
@@ -77,5 +79,6 @@ class Chicken extends MovableObject {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
         this.outOfGameAnimation();
+        this.die_sound.play();
     } 
 }

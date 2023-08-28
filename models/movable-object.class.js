@@ -75,6 +75,14 @@ class MovableObject extends DrawableObject { // test
         }, 25)
     } 
 
+    dieAnimation(array){
+        for (let i = 0; i < array.length - 1; i++) {
+            setTimeout(() => {
+                let path = array[i];
+                this.img = this.imageCache[path];
+            }, i * 30);
+        }
+    }
 
 
 
