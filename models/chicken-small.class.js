@@ -20,7 +20,7 @@ class ChickenSmall extends MovableObject {
     ];
 
     die_sound = new Audio('audio/dieSmallChicken.mp3');
-    falling_sound = new Audio('audio/falling3.mp3');
+    falling_sound = new Audio('audio/falling5.mp3');
 
 
     /**
@@ -28,8 +28,10 @@ class ChickenSmall extends MovableObject {
      * @param {Character} character - The player's character.
      * @param {number} startX - The starting x-coordinate of the small chicken.
      */
-    constructor(character, startX) {
-        super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
+    constructor(character, startX, audioManager) {
+        super();
+        this.audioManager = audioManager;
+        this.loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.character = character;
         this.startX = startX 
         this.x = this.startX;
@@ -76,7 +78,7 @@ class ChickenSmall extends MovableObject {
     startMoving() {
         this.isMoving = true;
         if(this.fallingSoundON){
-            this.falling_sound.play();
+            this.audioManager.playAudio(this.falling_sound);
             this.fallingSoundON = false;
         }
     }
@@ -123,7 +125,7 @@ class ChickenSmall extends MovableObject {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
         this.outOfGameAnimation();
-        this.die_sound.play();
+        this.audioManager.playAudio(this.die_sound);
     } 
 
 

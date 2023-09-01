@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject { // test
     energy = 100;
     lastHit = 0;
     isDead = false;
+    audioManager;
 
 
     applyGravity() {

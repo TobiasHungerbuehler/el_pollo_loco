@@ -13,6 +13,7 @@
     lastHurtTime = 0;
     hurtCooldown = 1200; 
     currentTime = 0;
+    hurt_sound = new Audio('audio/endbossHurt.mp3');
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -60,8 +61,10 @@
      * Creates an instance of Endboss.
      * @param {Object} statusBar - The status bar associated with the Endboss.
      */
-    constructor(statusBar){
-        super().loadImage(this.IMAGES_ALERT[0]);
+    constructor(statusBar, audioManager){
+        super()
+        this.audioManager = audioManager;
+        this.loadImage(this.IMAGES_ALERT[0]);
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
@@ -77,7 +80,6 @@
     /**
      * Initiates the Endboss animation.
      */
-        anima
     animate(){
         this.attack();
     }
@@ -159,8 +161,8 @@
      */
     endbossHurtAnimations(){
         this.clearScene()
+        this.audioManager.playAudio(this.hurt_sound);
         this.endbossHits += 1;
-        console.log('endbossHits' , this.endbossHits)
         this.statusBar.endbossHit();
         this.sceneInterval(this.IMAGES_HURT, this.attack.bind(this), 0);
         this.isHurt = false;
@@ -174,6 +176,7 @@
         if (this.endbossHits >= 3) {
             this.clearScene()
             this.dieAnimation(this.IMAGES_DEAD);
+            this.audioManager.closingMusic('winn');
         }
     }
 } 

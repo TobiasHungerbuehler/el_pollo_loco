@@ -1,7 +1,9 @@
 class World {
+    gameOn = true;
     canvas;
     ctx; 
-    character = new Character(); //pepe
+    audioManager = new AudioManager(this);
+    character = new Character(this.audioManager); 
     statusBar = new StatusBar();
     level;
     camera_x = 0;
@@ -11,13 +13,15 @@ class World {
     bottlescore = 20;
     pickedBottleIndices = [];
     pickedCoinIndices = [];
+    bottlePick_sound = new Audio('audio/bottlePick.mp3');
+    coinPick_sound = new Audio('audio/coinPick.mp3');
 
-    
+
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
         this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
         this.keyboard = keyboard;
-        this.level = createLevel1(this.statusBar, this.character);
+        this.level = createLevel1(this.statusBar, this.character, this.audioManager);
         this.pickableObjects = this.level.pickableObjects;
         this.draw();
         this.setWorldId();
@@ -42,11 +46,13 @@ class World {
                 if (object instanceof Coin && this.character.y <= 0) {
                     if (!this.pickedCoinIndices.includes(index)){
                         this.coinPicked(object, index);  
+                        this.audioManager.playAudio(this.coinPick_sound);
                     }
                 }
                 if (object instanceof Bottle) {
                     if (!this.pickedBottleIndices.includes(index)){
                         this.bottlePicked(object, index);
+                        this.audioManager.playAudio(this.bottlePick_sound);
                     }
                 }
             }
@@ -79,7 +85,7 @@ class World {
 
     checkThrowableObjects(){
         if(this.keyboard.D && this.bottlescore > 0){
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar);
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar, this.audioManager);
             this.throwableObjects.push(bottle);
         }
     }
@@ -87,7 +93,7 @@ class World {
     // character collisions
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy) && !enemy.isDead){
+            if(this.character.isColliding(enemy) && !enemy.isDead && this.gameOn){
                 if(this.character.y >= 65 && this.character.y < 150) { // when jumping on head
                     enemy.die();
                 } else {

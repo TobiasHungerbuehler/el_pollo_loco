@@ -14,18 +14,18 @@
  * const level1 = createLevel1(statusBar, character);
  */
 
-function createLevel1(statusBar, character){
+function createLevel1(statusBar, character, audioManager){
     return new Level(
         [
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
-            new ChickenSmall(character, 800),
-            new ChickenSmall(character, 1300),
-            new ChickenSmall(character, 1800),
-            new ChickenSmall(character, 1850),
-            new ChickenSmall(character, 1900),
-            new Endboss(statusBar)
+            new Chicken(audioManager),
+            new Chicken(audioManager),
+            new Chicken(audioManager),
+            new ChickenSmall(character, 800, audioManager),
+            new ChickenSmall(character, 1300, audioManager),
+            new ChickenSmall(character, 1800, audioManager),
+            new ChickenSmall(character, 1850, audioManager),
+            new ChickenSmall(character, 1900, audioManager),
+            new Endboss(statusBar, audioManager)
         ],
         [ 
             new Cloud()

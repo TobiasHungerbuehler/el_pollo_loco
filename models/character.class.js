@@ -49,15 +49,14 @@ class Character extends MovableObject {
     hurt_sound = new Audio('audio/character_hurt.mp3');
 
 
-    constructor() {
-        super().loadImage('img/2_character_pepe/2_walk/W-21.png')
-        this.loadImages(this.IMAGES_WALKING) // load all walking images in imageCache
-        this.loadImages(this.IMAGES_JUMPING) // load all walking images in imageCache
-        this.loadImages(this.IMAGES_DEAD) // load all walking images in imageCache
-        this.loadImages(this.IMAGES_HURT) // load all walking images in imageCache
-        window.allAudio.push(this.walking_sound);
-        window.allAudio.push(this.jump_sound);
-        window.allAudio.push(this.hurt_sound);
+    constructor(audioManager) {
+        super();
+        this.audioManager = audioManager;
+        this.loadImage('img/2_character_pepe/2_walk/W-21.png');
+        this.loadImages(this.IMAGES_WALKING); // load all walking images in imageCache
+        this.loadImages(this.IMAGES_JUMPING); // load all walking images in imageCache
+        this.loadImages(this.IMAGES_DEAD); // load all walking images in imageCache
+        this.loadImages(this.IMAGES_HURT); // load all walking images in imageCache
         this.animate();     
         this.applyGravity();
     }
@@ -70,16 +69,16 @@ class Character extends MovableObject {
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){ 
                 this.moveRight();
                 this.throwDirectionRight = true;
-                this.walking_sound.play();
+                this.audioManager.playAudio(this.walking_sound);
             }
             if(this.world.keyboard.LEFT && this.x > 0){ 
                 this.moveLeft();
                 this.throwDirectionRight = false;
-                this.walking_sound.play();
+                this.audioManager.playAudio(this.walking_sound);
             }
             if(this.world.keyboard.SPACE && !this.isAboveGround()){
                 this.jump();       
-                this.jump_sound.play();
+                this.audioManager.playAudio(this.jump_sound);
             } 
             this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
@@ -89,10 +88,10 @@ class Character extends MovableObject {
             if(this.dead()){
                 gameOverScreen();
                 this.CharacterEndAnimation();
-                //stop Music
+                this.audioManager.closingMusic('loose');
              } else if (this.isHurt()) {
                  this.playAnimation(this.IMAGES_HURT);
-                 this.hurt_sound.play();
+                 this.audioManager.playAudio(this.hurt_sound);
             } 
             else if(this.isAboveGround() ){
                 this.playAnimation(this.IMAGES_JUMPING);

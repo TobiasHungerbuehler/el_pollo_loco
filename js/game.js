@@ -1,20 +1,21 @@
 let canvas;
 let world; 
 let keyboard = new Keyboard();
-let music = new Audio('audio/music.mp3');
-window.allAudio = [];
+//let music = new Audio('audio/music.mp3');
+let muteModus = false;
+//window.allAudio = [];
+
 
 
 function muteAllAudio() {
-  for (let audio of allAudio) {
-    audio.muted = !audio.muted;  // Toggle zwischen muted und unmuted
-  }
+  muteModus = !muteModus;
+  console.log('Mute =', muteModus);
 }
 
 
 function init() {
   document.getElementById('overlay').classList.remove('d-none');
-  allAudio.push(music);
+  //allAudio.push(music);
 }
 
 
@@ -25,13 +26,12 @@ function startGame(){
   canvas = document.getElementById('canvas'); // canvas html element in variable
   world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
   world.draw();
-  music.play();
+  //music.play();
 }
 
 
 
 function gameOverScreen(){
-  music.pause();
   console.log('game over')
 }
 

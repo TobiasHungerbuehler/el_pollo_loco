@@ -1,4 +1,6 @@
 class ThrowableObject extends MovableObject{
+
+    throw_sound = new Audio('audio/whoosh2.mp3');
     
     IMAGES_SPLASH  = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -9,8 +11,11 @@ class ThrowableObject extends MovableObject{
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-    constructor(x,y, character, world, statusBar){
-        super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
+
+    constructor(x,y, character, world, statusBar, audioManager){
+        super();
+        this.audioManager = audioManager;
+        this.loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_SPLASH);
         this.character = character;
         this.x = x;
@@ -22,9 +27,11 @@ class ThrowableObject extends MovableObject{
         this.throw();
     }
 
+
     throw() {
         this.speedY = 10;
         this.applyGravity();
+        this.audioManager.playAudio(this.throw_sound);
         if(this.character.throwDirectionRight) {
             setInterval(() => {
                 this.x += 10;
@@ -39,14 +46,12 @@ class ThrowableObject extends MovableObject{
         if(imgIndex >= 5){
             imgIndex = 5;
         }
-        this.statusBar.setBottlesPercentage(imgIndex)
+        this.statusBar.setBottlesPercentage(imgIndex);
     }
     
 
     bottleSplash(){
-        this.animationInterval = setInterval(()=> {
-            this.playAnimation(this.IMAGES_SPLASH);
-        }, 300)
+        this.dieAnimation(this.IMAGES_SPLASH);
     }
 
  

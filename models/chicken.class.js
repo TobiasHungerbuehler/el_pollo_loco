@@ -23,8 +23,10 @@ class Chicken extends MovableObject {
     /**
     * Initializes a new instance of the Chicken class.
     */
-    constructor() {
-        super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+    constructor(audioManager) {
+        super()
+        this.audioManager = audioManager;
+        this.loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = (Math.random() * 2600) + 600; 
         this.loadImages(this.IMAGES_WALKING) 
         this.loadImages(this.IMAGES_DEAD) 
@@ -79,6 +81,6 @@ class Chicken extends MovableObject {
         this.isDead = true;
         this.playAnimation(this.IMAGES_DEAD);
         this.outOfGameAnimation();
-        this.die_sound.play();
+        this.audioManager.playAudio(this.die_sound);
     } 
 }
