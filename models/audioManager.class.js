@@ -5,12 +5,14 @@ class AudioManager {
     winn_sound = new Audio('audio/winn.mp3');
 
     constructor(world) {
+        window.audioManager = this;
         this.world = world;
         this.isMuted = muteModus; // Mute startstatus from start window
         this.allAudio = [];
         this.addAudio(this.music);
         this.playAudio(this.music)
-        this.testControls();
+        this.ingameAudioControls();
+        //this.testControls();
     }
 
     // Methode zum Abspielen einer Audiodatei
@@ -37,28 +39,36 @@ class AudioManager {
     }
 
 
-    testControls() {
-        // Erstellen des Buttons
-        const button = document.createElement('button');
-        button.innerText = 'Ton inGame';
-    
-        // Hinzufügen eines Event Listeners
-        button.addEventListener('click', () => this.toggleMute());
-    
-        // Anhängen des Buttons an den Placeholder
-        document.getElementById('placeholder').appendChild(button);
+    updateAudioButton(imageSrc) {
+        document.getElementById('audio-btn-container').innerHTML = /*html*/ `
+            <div onclick="audioManager.toggleMute()">
+                <img src="${imageSrc}" alt="">
+            </div>
+        `;
+    }
+
+
+    ingameAudioControls() {
+        let imageSrc;
+        if (this.isMuted) {
+            imageSrc = 'img/10_controls/volume.png';
+        } else {
+            imageSrc = 'img/10_controls/mute.png';
+        }
+        this.updateAudioButton(imageSrc);
     }
     
 
 
-
     // Methode zum Umschalten der Stummschaltung
     toggleMute() {
+        console.log('toggle')
         this.isMuted = !this.isMuted;
         muteModus = this.isMuted;  // aktualisiert die globale Variable
         this.allAudio.forEach(audio => {
             audio.muted = this.isMuted;
         });
+        this.ingameAudioControls();
     }
 
     

@@ -27,20 +27,48 @@
     <script src="./levels/level1.js"></script>
 </head>
 <body onload="init()" id="body">
+    
 
-    <h1>El Pollo Loco</h1>
+
+    <div class="stage">
+
+        <div class="ingameControll">
+
+            <div class="audio-btn-container" id="audio-btn-container">
 
 
-    <button onclick="">Ton an/aus</button>
-    <div class="placeholder" id="placeholder"></div>
-    <canvas width="720" height="480" id="canvas"></canvas>
 
-    <div class="overlay" id="overlay">
-        <form onsubmit="startGame(); return false;">
-            <button type="submit">Start</button>
-        </form>
-        <button onclick="muteAllAudio()">Ton an/aus</button>
+
+            </div>
+
+        </div>
+        
+        <div class="overlay frame" id="overlay">
+                
+            <button onclick="startGame()">Start</button>
+
+            <button onclick="muteAllAudio()">Ton an/aus</button>
+
+
+
+
+
+        </div>
+        
+        <canvas class="frame" width="720" height="480" id="canvas"></canvas>
+        
+        <!-- <div class="placeholder" id="placeholder"></div> -->
     </div>
+
+
+    <!-- <h1>El Pollo Loco</h1> -->
+
+
+
+    
+
+        
+
     
 
 </body>

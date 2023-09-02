@@ -1,11 +1,7 @@
 let canvas;
 let world; 
 let keyboard = new Keyboard();
-//let music = new Audio('audio/music.mp3');
-let muteModus = false;
-//window.allAudio = [];
-
-
+let muteModus = true;
 
 function muteAllAudio() {
   muteModus = !muteModus;
@@ -15,7 +11,6 @@ function muteAllAudio() {
 
 function init() {
   document.getElementById('overlay').classList.remove('d-none');
-  //allAudio.push(music);
 }
 
 

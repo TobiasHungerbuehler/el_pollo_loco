@@ -1,19 +1,83 @@
 body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: black;
-    background-image: url('img/5_background/backdrop2.png')
+    background-image: url('img/5_background/backdrop6.png');
+    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
+    background-position: center;  /* Zentriert das Bild */
+    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+}
+
+.background {
+    height: 100%;
+    width: 100%;
+    /* background-color: rgba(253, 229, 9, 0.2); */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .d-none{
     display: none;
 }
 
+.stage{
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.ingameControll{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    height: 100px;
+    width: 200px;
+    border: 1px solid yellow;
+}
+
+.audio-btn-container{
+    height: 40px;
+    width: 40px;
+    border: 1px solid white;
+}
+
+.audio-btn-container img{
+    height: 100%;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .overlay {
     position: absolute;
-    z-index: 2;
-    background-image: url('./img/9_intro_outro_screens/start/startscreen_1.png'); /* Pfad zu Ihrem Bild */
+    height: 480px;
+    width: 720px;
+    z-index: 3;
+    background-image: url('./img/9_intro_outro_screens/start/startscreen_3.png'); /* Pfad zu Ihrem Bild */
     background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
     background-position: center;  /* Zentriert das Bild */
     background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
@@ -27,13 +91,13 @@ body {
     
 }
 
-
-
-
-canvas {
+.frame{
     background-color: black;
     border: 2px solid #FDE58F;
-    border-radius: 10px;
+    border-radius: 10px
+}
+
+canvas {
     display: block;
 }
 
