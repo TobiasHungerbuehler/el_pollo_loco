@@ -1,5 +1,5 @@
 class World {
-    gameOn = true;
+    //gameOn = true;
     canvas;
     ctx; 
     audioManager = new AudioManager(this);
@@ -30,14 +30,23 @@ class World {
 
 
     run(){
-        setInterval(() =>{
+        let worldRun = setInterval(() => {
             this.checkCollision();
             this.checkThrowableObjects();
             this.hitCheck();
             this.checkPickableObject();
-        }, 200)
-
+        }, 200);
+    
+        intervals.push(worldRun); // Fügt die Intervall-ID zum intervals Array hinzu
     }
+
+    // weiterspielen test //////////////////////////////////////////////////////////////////////////////////
+    // resumeIntervals() {
+    //     this.run();
+    //     this.draw();
+    //     this.character.animate();
+    //     console.log('resume')
+    // }
 
 
     checkPickableObject(){
@@ -93,7 +102,7 @@ class World {
     // character collisions
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy) && !enemy.isDead && this.gameOn){
+            if(this.character.isColliding(enemy) && !enemy.isDead && gameOn){
                 if(this.character.y >= 65 && this.character.y < 150) { // when jumping on head
                     enemy.die();
                 } else {
@@ -124,32 +133,40 @@ class World {
     
     
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
 
-        this.ctx.translate(this.camera_x, 0); // der context ctx verschiebt sich 100 nach links
-
-        //elemente werden gezeichnet
-        this.addObjectToMap(this.level.backgrounds);// Backgrounds
-        this.addObjectToMap(this.level.enemies);// draw chicken
-        this.addObjectToMap(this.level.clouds);// Clouds    
-        this.addToMap(this.character);// draw pepe
-        this.addObjectToMap(this.throwableObjects);// draw bottles
-        this.addObjectToMap(this.pickableObjects);// draw bottles
-
+        if (gameOn) { // Überprüfen Sie, ob das Spiel läuft
+            
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
     
-        this.ctx.translate(-this.camera_x, 0); 
-        // ------ Space for fixed Object ------   
-        this.statusBar.drawBars(this.ctx);
-
-        this.ctx.translate(this.camera_x, 0);
+            this.ctx.translate(this.camera_x, 0); // der context ctx verschiebt sich 100 nach links
+    
+            //elemente werden gezeichnet
+            this.addObjectToMap(this.level.backgrounds);// Backgrounds
+            this.addObjectToMap(this.level.enemies);// draw chicken
+            this.addObjectToMap(this.level.clouds);// Clouds    
+            this.addToMap(this.character);// draw pepe
+            this.addObjectToMap(this.throwableObjects);// draw bottles
+            this.addObjectToMap(this.pickableObjects);// draw bottles
+    
         
-        this.ctx.translate(-this.camera_x, 0); // der context ctx verschiebt sich wieder nach rechts  
+            this.ctx.translate(-this.camera_x, 0); 
+            // ------ Space for fixed Object ------   
+            this.statusBar.drawBars(this.ctx);
+    
+            this.ctx.translate(this.camera_x, 0);
+            
+            this.ctx.translate(-this.camera_x, 0); // der context ctx verschiebt sich wieder nach rechts  
+    
+            // draw loop // standard Methode
+            let self = this;
+            requestAnimationFrame(function(){
+                self.draw();
+            });
+            
+        } 
 
-        // draw loop // standard Methode
-        let self = this;
-        requestAnimationFrame(function(){
-            self.draw();
-        });
+        
+
     }
 
 

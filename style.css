@@ -88,9 +88,11 @@ body {
     justify-content: center;
     flex-direction: column;
     border: 2px solid rgb(253, 229, 143, 0.2);
+
 }
 
 .start-audio-container{
+    margin-top: 20px;
     margin-top: 20px;
     display: flex;
     justify-content: flex-end;
