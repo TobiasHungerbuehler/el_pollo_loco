@@ -34,7 +34,7 @@ class AudioManager {
 
 
     updateAudioButton(imageSrc) {
-        document.getElementById('audio-btn-container').innerHTML = /*html*/ `
+        document.getElementById('ingame-audio-btn-container').innerHTML = /*html*/ `
             <div onclick="audioManager.toggleMute()">
                 <img src="${imageSrc}" alt="">
             </div>

@@ -44,18 +44,18 @@ body {
     border: 1px solid yellow;
 }
 
-.audio-btn-container{
+.ingame-audio-btn-container{
     height: 40px;
     width: 40px;
     border: 1px solid white;
 }
 
-.audio-btn-container img{
+.ingame-audio-btn-container img{
     height: 100%;
     width: 100%;
 }
 
-
+/* Startscreen *************************************************/
 .overlay {
     position: absolute;
     height: 480px;
@@ -82,57 +82,46 @@ body {
     border-radius: 10px
 }
 
-.top{
+.startscreen-top{
+    height: 28%;
     width: 90%;
     display: flex;
-    justify-content: center;
     flex-direction: column;
+    justify-content: space-between;
     border: 2px solid rgb(253, 229, 143, 0.2);
-
 }
 
-.start-audio-container{
+
+.audio-img-container{
     margin-top: 20px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.start-audio-container img {
-    height: 40px;
-    width: 40px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: all 125ms ease-in-out; 
-}
-
-.start-audio-container img:hover{
-    height: 43px;
-    width: 43px;
-    transition: all 125ms ease-in-out; 
-}
-
-
-#audio-img-container{
-    height: 43px;
-    width: 43px;
+    height: 30%;
+    width: auto;
+    align-self: flex-end;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.audio-img-container img{
+    height: 100%;
+    width: auto;
 }
 
 h2{
     margin: 0;
-    padding: 10px;
+    font-weight: 600;
     letter-spacing: 1px;
+    color: rgb(0, 0, 0, 0.7);
 }
 
-.start-container{
-    margin-top: 5px;
+.start-btn{
+    height: 50px;
     background: linear-gradient(180deg, rgba(255, 198, 33, 1) 0%, rgba(255, 220, 0, 1) 50%, rgba(255, 160, 0, 1) 100%);
     color: rgb(0, 0, 0, 0.8);
     align-self: center;
-    width: 240px;
+    width: 50%;
+    max-width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,9 +129,10 @@ h2{
     border: 2px solid rgb(162, 34, 11, 0.5); 
     cursor: pointer;
     transition: all 125ms ease-in-out; 
+    font-size: 2vw;
 }
 
-.start-container:hover{
+.start-btn:hover{
     transition: all 125ms ease-in-out; 
     border: 3px solid rgb(162, 34, 11, 0.7); 
 }
@@ -167,28 +157,30 @@ h2{
     color: beige;
     width: 90%;
     border: 2px solid rgb(253, 229, 143, 0.2);
-    margin-bottom: 20px;
+    margin-bottom: 4%;
+    height: 8%;
 }
 
 .box-wrapper{
+    height: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .box{
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-
+    justify-content: space-between;
+    align-items: center;    
 }
 
 .box img {
-    height: 28px;
+    height: 100%;
+    width: auto;
 }
 .des-txt{
     padding-left: 5px;
-    font-size: 21px;
-    font-weight: 600;
+    font-size: 3vw;
+    font-weight: 500;
 }
 
 
@@ -200,35 +192,12 @@ canvas {
     canvas{
         width: 100%;
     }
-
-    .overlay{
-
-        width: 100%;
-        height: auto;
-    }
-
-    .start-audio-container{
-        margin-top: 5px;
-    }
     
-    .start-audio-container img {
-        height: 28px;
-        width: 28px;
-        margin-top: 20px;
-        cursor: pointer;
-        transition: all 125ms ease-in-out; 
+    .overlay{
+        height: auto;
+        width: 100%;
     }
 
-    .start-container{
-        height: 35px;
-        border-radius: 15px;
-    }
-
-    h2{
-        font-size: 22px;
-        margin: 0;
-        padding: 0px;
-    }
     
 }
 

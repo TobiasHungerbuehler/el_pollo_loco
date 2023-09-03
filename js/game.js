@@ -96,14 +96,14 @@ window.addEventListener('keyup', (event) => {
 function startScreenHTML(){
     return /*html*/ `
               <div class="overlay frame" id="overlay">
-                
-                <div class="top">
-                    <div class="start-audio-container">
-                        <div id="audio-img-container" onclick="muteAllAudio()">
-                            <img src="img/10_controls/volume.png" alt="">
-                        </div>
+
+                <div class="startscreen-top">
+
+                    <div class="audio-img-container" id="audio-img-container" onclick="muteAllAudio()">
+                        <img src="img/10_controls/volume.png" alt="">
                     </div>
-                    <div class="start-container hovering"  onclick="startGame()">
+
+                    <div class="start-btn hovering"  onclick="startGame()">
                         <h2>Start</h2>
                     </div>
     
