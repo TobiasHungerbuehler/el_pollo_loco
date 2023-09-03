@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fonts.css">
     
     <script src="./models/drawable-objects.class.js"></script>
     <script src="./models/audioManager.class.js"></script>
@@ -34,25 +35,51 @@
 
         <div class="ingameControll">
 
-            <div class="audio-btn-container" id="audio-btn-container">
-
-
-
-
-            </div>
+            <div class="audio-btn-container" id="audio-btn-container"></div>
 
         </div>
         
         <div class="overlay frame" id="overlay">
                 
-            <button onclick="startGame()">Start</button>
+            <div class="top">
+                <div class="start-audio-container">
+                    <div onclick="muteAllAudio()">
+                        <img src="img/10_controls/volume.png" alt="">
+                    </div>
+                </div>
+                <div class="start-container hovering"  onclick="startGame()">
+                    <h2>Start</h2>
+                </div>
 
-            <button onclick="muteAllAudio()">Ton an/aus</button>
+            </div>
+            
 
+            <div class="description">
+                <div class="box-wrapper" id="desktop-box">
+                    <div class="box">
+                        <img src="img/10_controls/volume.png" alt="">
+                        <div class="des-txt">Left</div>
+                    </div>
+                    <div class="box">
+                        <img src="img/10_controls/volume.png" alt="">
+                        <div class="des-txt">Right</div>
+                    </div>
+                    <div class="box">
+                        <img src="img/10_controls/volume.png" alt="">
+                        <div class="des-txt">Jump</div>
+                    </div>
+                    <div class="box">
+                        <img src="img/10_controls/volume.png" alt="">
+                        <div class="des-txt">Throw</div>
+                    </div>
+                    <div class="box">
+                        <img src="img/10_controls/volume.png" alt="">
+                        <div class="des-txt">Left</div>
+                    </div>
 
+                </div>
 
-
-
+            </div>
         </div>
         
         <canvas class="frame" width="720" height="480" id="canvas"></canvas>
@@ -62,7 +89,6 @@
 
 
     <!-- <h1>El Pollo Loco</h1> -->
-
 
 
     

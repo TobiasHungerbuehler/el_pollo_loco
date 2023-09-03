@@ -12,8 +12,8 @@ class AudioManager {
         this.addAudio(this.music);
         this.playAudio(this.music)
         this.ingameAudioControls();
-        //this.testControls();
     }
+
 
     // Methode zum Abspielen einer Audiodatei
     playAudio(audio) {
@@ -23,19 +23,13 @@ class AudioManager {
         if (this.isMuted) {
             audio.muted = this.isMuted;
         }
-
         this.addAudio(audio);
-
-
     }
 
 
     // Methode zum Hinzufügen von Audiodateien zum Manager
     addAudio(audio) {
         this.allAudio.push(audio);
-        //audio.muted = this.isMuted;
-
-        //console.log('all Audio Index', this.allAudio);
     }
 
 
@@ -51,9 +45,9 @@ class AudioManager {
     ingameAudioControls() {
         let imageSrc;
         if (this.isMuted) {
-            imageSrc = 'img/10_controls/volume.png';
-        } else {
             imageSrc = 'img/10_controls/mute.png';
+        } else {
+            imageSrc = 'img/10_controls/volume.png';
         }
         this.updateAudioButton(imageSrc);
     }
@@ -62,7 +56,6 @@ class AudioManager {
 
     // Methode zum Umschalten der Stummschaltung
     toggleMute() {
-        console.log('toggle')
         this.isMuted = !this.isMuted;
         muteModus = this.isMuted;  // aktualisiert die globale Variable
         this.allAudio.forEach(audio => {
