@@ -12,9 +12,10 @@ class Cloud extends MovableObject {
     }
 
     startAnimation() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             this.animate();
         }, 1000 / 60); // Aufruf der animate Methode 60 mal pro Sekunde
+        intervals.push(this.animationInterval);
     }
 
     animate() {

@@ -66,7 +66,7 @@ class AudioManager {
 
     
     closingMusic(result){
-        this.world.gameOn = false;
+        //this.world.gameOn = false;
         if(result === 'loose'){
             this.music.pause(); // Stoppt die Musik
             //this.music.currentTime = 0; // Setzt den Zeitpunkt der Musik auf 0 zurück
@@ -77,6 +77,13 @@ class AudioManager {
             //this.music.currentTime = 0; // Setzt den Zeitpunkt der Musik auf 0 zurück
             this.playAudio(this.winn_sound); // Spielt den "winn"-Sound ab
         }
+    }
+
+
+    stopAllAudio() {
+        this.allAudio.forEach(audio => {
+            audio.pause();        // Pausiert das Audio
+        });
     }
     
 

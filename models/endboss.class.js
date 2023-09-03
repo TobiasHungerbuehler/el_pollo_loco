@@ -111,6 +111,7 @@
                 nextFunction();
             }
         }, 1600);
+        intervals.push(this.endbossInterval);
     }
 
 

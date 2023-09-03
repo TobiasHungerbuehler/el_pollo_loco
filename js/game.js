@@ -1,35 +1,62 @@
 let canvas;
 let world; 
 let keyboard = new Keyboard();
-let muteModus = true;
+let muteModus = false;
+let intervals = [];
+let gameOn;
+
 
 function muteAllAudio() {
   muteModus = !muteModus;
-  console.log('Mute =', muteModus);
+  startAudioToggle();
 }
 
 
 function init() {
-  document.getElementById('overlay').classList.remove('d-none');
+  console.log('Mutemodus =', muteModus);
+  document.getElementById('stage').innerHTML += startScreenHTML();
+  startAudioToggle();
 }
 
-
+function startAudioToggle(){
+  let src;
+  if(muteModus){
+    src = 'img/10_controls/mute.png';
+  } 
+  if(!muteModus){
+    src = 'img/10_controls/volume.png';
+  }
+  document.getElementById('audio-img-container').innerHTML = `<img src="${src}">`
+}
 
 
 function startGame(){
+  gameOn = true;
   document.querySelector('.overlay').remove();
   canvas = document.getElementById('canvas'); // canvas html element in variable
   world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
-  world.draw();
-  //music.play();
 }
-
 
 
 function gameOverScreen(){
   console.log('game over')
 }
 
+
+function stopGame(){
+  stopAllIntervals();
+  gameOn = false;  // Setzt die gameOn-Variable in der World-Instanz auf false
+  audioManager.stopAllAudio();
+  init();
+}
+
+
+function stopAllIntervals() {
+  intervals.forEach((intervalId) => {
+      clearInterval(intervalId);
+  });
+  intervals = []; // Das Array leeren
+}
 
 window.addEventListener('keydown', (event) => {
     if (event.keyCode === 37) {
@@ -49,7 +76,7 @@ window.addEventListener('keydown', (event) => {
 
 
 
-  window.addEventListener('keyup', (event) => {
+window.addEventListener('keyup', (event) => {
     if (event.keyCode === 37) {
       keyboard.LEFT = false;
     } else if (event.keyCode === 39) {
@@ -65,3 +92,54 @@ window.addEventListener('keydown', (event) => {
     }
   });
   
+
+function startScreenHTML(){
+    return /*html*/ `
+              <div class="overlay frame" id="overlay">
+                
+                <div class="top">
+                    <div class="start-audio-container">
+                        <div id="audio-img-container" onclick="muteAllAudio()">
+                            <img src="img/10_controls/volume.png" alt="">
+                        </div>
+                    </div>
+                    <div class="start-container hovering"  onclick="startGame()">
+                        <h2>Start</h2>
+                    </div>
+    
+                </div>
+                
+    
+                <div class="description">
+                    <div class="box-wrapper" id="desktop-box">
+                        <div class="box">
+                            <img src="img/10_controls/volume.png" alt="">
+                            <div class="des-txt">Left</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/volume.png" alt="">
+                            <div class="des-txt">Right</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/volume.png" alt="">
+                            <div class="des-txt">Jump</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/volume.png" alt="">
+                            <div class="des-txt">Throw</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/volume.png" alt="">
+                            <div class="des-txt">Left</div>
+                        </div>
+    
+                    </div>
+    
+                </div>
+            </div>
+    
+    
+    
+    
+    `;
+  }

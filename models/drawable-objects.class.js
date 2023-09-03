@@ -8,8 +8,8 @@ class DrawableObject {
     width = 100;
 
     loadImage(path) {
-    this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
-    this.img.src = path;  // Setze den Pfad als src-Eigenschaft des Image-Objekts
+        this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
+        this.img.src = path;  // Setze den Pfad als src-Eigenschaft des Image-Objekts
     }
 
     loadImages(array) { // befüllt das imageCache json mit den img's
@@ -41,12 +41,13 @@ class DrawableObject {
 
     picked(object){
         this.speedY = 10;
-        setInterval(() => {
+        this.pickInterval = setInterval(() => {
             this.height -= 5;
             this.width  -= 5;
             this.y -= 15;
             this.x -= 10;
         }, 25)
+        intervals.push(this.pickInterval);
     }
 
 
