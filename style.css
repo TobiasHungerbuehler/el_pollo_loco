@@ -11,13 +11,13 @@ body {
     background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
     background-position: center;  /* Zentriert das Bild */
     background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .background {
     height: 100%;
     width: 100%;
-    /* background-color: rgba(253, 229, 9, 0.2); */
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -87,14 +87,11 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-
-
-
     border: 2px solid rgb(253, 229, 143, 0.2);
-
 }
 
 .start-audio-container{
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 }
@@ -103,18 +100,23 @@ body {
     height: 40px;
     width: 40px;
     margin-top: 20px;
-}
-
-.start-container{
-    background: linear-gradient(180deg, rgba(255, 198, 33, 1) 0%, rgba(255, 220, 0, 1) 50%, rgba(255, 160, 0, 1) 100%);
-    color: rgb(0, 0, 0, 0.8);
-    align-self: center;
-    width: 240px;
-    text-align: center;
-    border-radius: 30px;
-    border: 4px solid rgb(162, 34, 11, 0.5); 
     cursor: pointer;
     transition: all 125ms ease-in-out; 
+}
+
+.start-audio-container img:hover{
+    height: 43px;
+    width: 43px;
+    transition: all 125ms ease-in-out; 
+}
+
+
+#audio-img-container{
+    height: 43px;
+    width: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 h2{
@@ -123,11 +125,26 @@ h2{
     letter-spacing: 1px;
 }
 
+.start-container{
+    margin-top: 5px;
+    background: linear-gradient(180deg, rgba(255, 198, 33, 1) 0%, rgba(255, 220, 0, 1) 50%, rgba(255, 160, 0, 1) 100%);
+    color: rgb(0, 0, 0, 0.8);
+    align-self: center;
+    width: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    border: 2px solid rgb(162, 34, 11, 0.5); 
+    cursor: pointer;
+    transition: all 125ms ease-in-out; 
+}
 
 .start-container:hover{
     transition: all 125ms ease-in-out; 
-    border: 4px solid rgb(162, 34, 11, 0.8); 
+    border: 3px solid rgb(162, 34, 11, 0.7); 
 }
+
 
 .hovering {
     animation-name: hovering;
@@ -135,6 +152,7 @@ h2{
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
 }
+
 
 @keyframes hovering {
     from {transform:translate(0, 0px);}
@@ -177,9 +195,39 @@ canvas {
 }
 
 @media only screen and (max-width: 720px) {
-    canvas {
+    canvas{
         width: 100%;
     }
+
+    .overlay{
+
+        width: 100%;
+        height: auto;
+    }
+
+    .start-audio-container{
+        margin-top: 5px;
+    }
+    
+    .start-audio-container img {
+        height: 28px;
+        width: 28px;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: all 125ms ease-in-out; 
+    }
+
+    .start-container{
+        height: 35px;
+        border-radius: 15px;
+    }
+
+    h2{
+        font-size: 22px;
+        margin: 0;
+        padding: 0px;
+    }
+    
 }
 
 
