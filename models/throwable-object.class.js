@@ -33,11 +33,11 @@ class ThrowableObject extends MovableObject{
         this.applyGravity();
         this.audioManager.playAudio(this.throw_sound);
         if(this.character.throwDirectionRight) {
-            setInterval(() => {
+            this.throwInterval = setInterval(() => {
                 this.x += 10;
             }, 25)
         } else {
-            setInterval(() => {
+            this.throwInterval = setInterval(() => {
                 this.x -= 10;
             }, 25)
         }
@@ -47,6 +47,7 @@ class ThrowableObject extends MovableObject{
             imgIndex = 5;
         }
         this.statusBar.setBottlesPercentage(imgIndex);
+        intervals.push(this.throwInterval);
     }
     
 

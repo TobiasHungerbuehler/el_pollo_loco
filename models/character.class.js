@@ -62,7 +62,7 @@ class Character extends MovableObject {
     }
     
     animate(){
-
+        console.log('animate', this.speed);
         // bewegen
         this.characterMoveAnimation = setInterval(()=> {
             this.walking_sound.pause();
@@ -101,6 +101,9 @@ class Character extends MovableObject {
                 }
             }
         }, 50)
+
+        intervals.push(this.characterImageAnimation);
+        intervals.push(this.characterMoveAnimation);
     }
 
     jump(){
