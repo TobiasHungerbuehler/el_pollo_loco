@@ -4,21 +4,25 @@ let keyboard = new Keyboard();
 let muteModus = false;
 let intervals = [];
 let gameOn;
+let isFullscreen = false;
+
 
 
 function muteAllAudio() {
   muteModus = !muteModus;
-  startAudioToggle();
+  updateStartAudioBtn();
 }
 
 
 function init() {
   console.log('Mutemodus =', muteModus);
   document.getElementById('stage').innerHTML += startScreenHTML();
-  startAudioToggle();
+  updateStartAudioBtn();
+  updateFullscreenBtn();
 }
 
-function startAudioToggle(){
+
+function updateStartAudioBtn(){
   let src;
   if(muteModus){
     src = 'img/10_controls/mute.png';
@@ -27,6 +31,17 @@ function startAudioToggle(){
     src = 'img/10_controls/volume.png';
   }
   document.getElementById('audio-img-container').innerHTML = `<img src="${src}">`
+}
+
+function updateFullscreenBtn(){
+  let src;
+  if(isFullscreen){
+    src = 'img/10_controls/fullscreen-exit.png';
+  } 
+  if(!isFullscreen){
+    src = 'img/10_controls/fullscreen.png';
+  }
+  document.getElementById('fullscreen-img-container').innerHTML = `<img src="${src}">`
 }
 
 
@@ -45,7 +60,7 @@ function gameOverScreen(){
 
 function stopGame(){
   stopAllIntervals();
-  gameOn = false;  // Setzt die gameOn-Variable in der World-Instanz auf false
+  gameOn = false;  
   audioManager.stopAllAudio();
   init();
 }
@@ -57,6 +72,7 @@ function stopAllIntervals() {
   });
   intervals = []; // Das Array leeren
 }
+
 
 window.addEventListener('keydown', (event) => {
     if (event.keyCode === 37) {
@@ -91,49 +107,108 @@ window.addEventListener('keyup', (event) => {
       keyboard.D = false;
     }
   });
+
+
+// for mobile buttons
+function setKey(key, state) {
+    keyboard[key] = state;
+}
+
+// Fullscreen /////////////////////////////////////////////
+
+function fullscreen(id){
+  isFullscreen = true;
+  let fullscreen = document.getElementById(id);
+  openFullscreen(fullscreen);
+}
+
+/* View in fullscreen */
+function openFullscreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+  isFullscreen = true;
+}
+
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) { /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE11 */
+    document.msExitFullscreen();
+  }
+}
   
 
 function startScreenHTML(){
     return /*html*/ `
               <div class="overlay frame" id="overlay">
 
-                <div class="startscreen-top">
+                  <div class="startscreen-top">
+                    
+                      <div class="start-controls">
+                          <div class="start-img-container" id="audio-img-container" onclick="muteAllAudio()">
+                              <img src="img/10_controls/volume.png" alt="">
+                          </div>
+                          <div class="start-img-container" id="fullscreen-img-container" onclick="fullscreen('stage')">
+                              <img src="img/10_controls/fullscreen.png" alt="">
+                          </div>
+                      </div>
 
-                    <div class="audio-img-container" id="audio-img-container" onclick="muteAllAudio()">
-                        <img src="img/10_controls/volume.png" alt="">
-                    </div>
-
-                    <div class="start-btn hovering"  onclick="startGame()">
-                        <h2>Start</h2>
-                    </div>
-    
-                </div>
+                      <div class="start-btn hovering"  onclick="startGame()">
+                          <h2>Start</h2>
+                      </div>
+      
+                  </div>
                 
     
                 <div class="description">
+
                     <div class="box-wrapper" id="desktop-box">
                         <div class="box">
-                            <img src="img/10_controls/volume.png" alt="">
+                            <img src="img/10_controls/arrow.png" alt="">
                             <div class="des-txt">Left</div>
                         </div>
                         <div class="box">
-                            <img src="img/10_controls/volume.png" alt="">
+                            <img src="img/10_controls/arrow.png" alt="">
                             <div class="des-txt">Right</div>
                         </div>
                         <div class="box">
-                            <img src="img/10_controls/volume.png" alt="">
-                            <div class="des-txt">Jump</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/volume.png" alt="">
+                            <img src="img/10_controls/letter-d.png" alt="">
                             <div class="des-txt">Throw</div>
                         </div>
                         <div class="box">
-                            <img src="img/10_controls/volume.png" alt="">
+                            <img src="img/10_controls/space.png" alt="">
+                            <div class="des-txt">Jump</div>
+                        </div>
+                    </div>
+
+                    <div class="box-wrapper" id="mobile-box">
+                        <div class="box">
+                            <img src="img/10_controls/arrow-mobile-btn.png" alt="">
                             <div class="des-txt">Left</div>
                         </div>
-    
+                        <div class="box">
+                            <img src="img/10_controls/arrow-mobile-btn.png" alt="">
+                            <div class="des-txt">Right</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/arrow-mobile-btn-btl.png" alt="">
+                            <div class="des-txt">Throw</div>
+                        </div>
+                        <div class="box">
+                            <img src="img/10_controls/arrow-mobile-btn-up.png" alt="">
+                            <div class="des-txt">Jump</div>
+                        </div>
                     </div>
+
     
                 </div>
             </div>

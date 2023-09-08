@@ -29,19 +29,43 @@
 </head>
 <body onload="init()" id="body">
     
-
-
     <div class="stage" id="stage">
 
-        <div class="ingameControll">
+        <div class="ingameControl">
             <button onclick="stopGame()">Stop Game</button>
-            <button onclick="resumeGame()">Weiter</button>
+            <button onclick="fullscreen('stage')">vollbild</button>
             <div class="ingame-audio-btn-container" id="ingame-audio-btn-container"></div>
         </div>
+
+        <div class="mobile-control">
+            <div class="mobile-control-left">
+                <div class="mobile-control-btn" ontouchstart="setKey('LEFT', true)" ontouchend="setKey('LEFT', false)">
+                    <img src="img/10_controls/arrow-mobile-btn.png" alt="">
+                </div>
+                <div class="mobile-control-btn" ontouchstart="setKey('RIGHT', true)" ontouchend="setKey('RIGHT', false)">
+                    <img src="img/10_controls/arrow-mobile-btn.png" alt="">
+                </div>
+            </div>
+            <div class="mobile-control-right">
+                <div class="mobile-control-btn" ontouchstart="setKey('D', true)" ontouchend="setKey('D', false)">
+                    <img src="img/10_controls/arrow-mobile-btn-btl.png" alt="">
+                </div>
+                <div class="mobile-control-btn" ontouchstart="setKey('SPACE', true)" ontouchend="setKey('SPACE', false)">
+                    <img src="img/10_controls/arrow-mobile-btn-up.png" alt="">
+                </div>
+            </div>
+        </div>
+        
+        
         
 
+        <canvas class="frame" width="720" height="480" id="canvas">
+
+
+            
+        </canvas>
+
         
-        <canvas class="frame" width="720" height="480" id="canvas"></canvas>
         
 
     </div>

@@ -15,13 +15,13 @@ body {
     overflow-x: hidden;
 }
 
-.background {
+/* .background {
     height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .d-none{
     display: none;
@@ -31,9 +31,13 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
+    background-image: url('img/5_background/backdrop6.png');
+    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
+    background-position: center;  /* Zentriert das Bild */
+    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
 }
 
-.ingameControll{
+.ingameControl{
     position: absolute;
     display: flex;
     justify-content: center;
@@ -55,12 +59,45 @@ body {
     width: 100%;
 }
 
+.mobile-control{
+    /* background-color: #ffa000; */
+    position: absolute;
+    bottom: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+    height: 10%;
+    width: 100%;
+}
+
+.mobile-control-left, .mobile-control-right{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-control img{
+    padding: 0 25px;
+    height: 50px;
+    width: auto;
+}
+
+.mobile-control-left .mobile-control-btn:first-child img {
+    transform: rotate(180deg);
+}
+
+
+
+
 /* Startscreen *************************************************/
 .overlay {
     position: absolute;
     height: 480px;
     width: 720px;
     z-index: 3;
+    background-color: #039CC8;
     background-image: url('./img/9_intro_outro_screens/start/startscreen_3.png'); /* Pfad zu Ihrem Bild */
     background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
     background-position: center;  /* Zentriert das Bild */
@@ -91,21 +128,30 @@ body {
     border: 2px solid rgb(253, 229, 143, 0.2);
 }
 
-
-.audio-img-container{
+.start-controls{
+    display: flex;
+    justify-content: flex-end;
     margin-top: 20px;
     height: 30%;
     width: auto;
-    align-self: flex-end;
+
+}
+
+.start-img-container{
+    padding-left: 20px;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
 }
 
-.audio-img-container img{
+.start-img-container img{
     height: 100%;
     width: auto;
+}
+
+.start-img-container:last-child img{
+    height: 85%;
 }
 
 h2{
@@ -152,13 +198,17 @@ h2{
     to {transform: translate(0, -0px);}
 }
 
-
+/* Description **************************************/
 .description{
-    color: beige;
+    color: rgb(255, 255, 244);
     width: 90%;
     border: 2px solid rgb(253, 229, 143, 0.2);
     margin-bottom: 4%;
-    height: 8%;
+    height: 7%;
+}
+
+#mobile-box{
+    display: none;
 }
 
 .box-wrapper{
@@ -168,42 +218,119 @@ h2{
 }
 
 .box{
+    height: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;    
+    align-items: center;   
 }
 
 .box img {
     height: 100%;
     width: auto;
 }
+
+.box:first-child img {
+    transform: rotate(180deg);
+}
+
+#desktop-box .box:nth-child(3) img {
+    height: 65%;
+    width: auto;
+}
+
+
 .des-txt{
-    padding-left: 5px;
-    font-size: 3vw;
+    padding-left: 16px;
+    font-size: 1.7vw;
     font-weight: 500;
 }
 
-
 canvas {
     display: block;
+    background-image: url('img/5_background/backdrop6.png');
+    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
+    background-position: center;  /* Zentriert das Bild */
+    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
 }
 
+/* Stile für den Vollbildmodus */
+:fullscreen .overlay,
+:-webkit-full-screen .overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    max-width: 1800px;
+}
+
+
+
 @media only screen and (max-width: 720px) {
+    #desktop-box{
+        display: none;
+    }
+
+    #mobile-box{
+        display: flex;
+    }
+    
     canvas{
-        width: 100%;
+        width: 99%;
     }
     
     .overlay{
         height: auto;
-        width: 100%;
+        width: 99vw;
+        align-self: center;
     }
+
+    .mobile-control img{
+        padding: 0 15px;
+        height: 35px;
+        width: auto;
+    }
+
+    
 
     
 }
 
 
-@media only screen and (max-height: 480x) {
+@media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
     }
+    
+    #desktop-box{
+        display: none;
+    }
+
+    #mobile-box{
+        display: flex;
+    }
+    .overlay{
+        height: 100%;
+        width: auto;
+        align-self: center;
+    }
+
+    .mobile-control img{
+        padding: 0 15px;
+        height: 35px;
+        width: auto;
+    }
+
+    .frame{
+        border: 0px;
+    }
+
+
+
+
+
+
+
+
 }
