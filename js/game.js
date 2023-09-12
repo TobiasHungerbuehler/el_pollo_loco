@@ -18,7 +18,7 @@ function init() {
   console.log('Mutemodus =', muteModus);
   document.getElementById('stage').innerHTML += startScreenHTML();
   updateStartAudioBtn();
-  updateFullscreenBtn();
+  //updateFullscreenBtn();
 }
 
 
@@ -30,18 +30,24 @@ function updateStartAudioBtn(){
   if(!muteModus){
     src = 'img/10_controls/volume.png';
   }
-  document.getElementById('audio-img-container').innerHTML = `<img src="${src}">`
+  document.getElementById('ingame-audio-btn-container').innerHTML = `<img src="${src}">`
 }
+
 
 function updateFullscreenBtn(){
   let src;
+  let funct
   if(isFullscreen){
     src = 'img/10_controls/fullscreen-exit.png';
+    funct = 'closeFullscreen()'
   } 
   if(!isFullscreen){
     src = 'img/10_controls/fullscreen.png';
+    funct = 'fullscreen("stage")';
   }
   document.getElementById('fullscreen-img-container').innerHTML = `<img src="${src}">`
+  let fullscreenBtn = document.getElementById("fullscreen-img-container");
+  fullscreenBtn.setAttribute("onclick", funct);
 }
 
 
@@ -50,7 +56,22 @@ function startGame(){
   document.querySelector('.overlay').remove();
   canvas = document.getElementById('canvas'); // canvas html element in variable
   world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
+  changeAudioFunc();
 }
+
+
+function changeAudioFunc() {
+  let funct;
+  if(gameOn){
+    funct = "audioManager.toggleMute()";
+  }
+  if(!gameOn){
+    funct = "muteAllAudio()";
+  }
+  let audioButton = document.getElementById("ingame-audio-btn-container");
+  audioButton.setAttribute("onclick", funct);
+}
+
 
 
 function gameOverScreen(){
@@ -62,6 +83,7 @@ function stopGame(){
   stopAllIntervals();
   gameOn = false;  
   audioManager.stopAllAudio();
+  changeAudioFunc();
   init();
 }
 
@@ -120,6 +142,7 @@ function fullscreen(id){
   isFullscreen = true;
   let fullscreen = document.getElementById(id);
   openFullscreen(fullscreen);
+  updateFullscreenBtn();
 }
 
 /* View in fullscreen */
@@ -144,6 +167,8 @@ function closeFullscreen() {
   } else if (document.msExitFullscreen) { /* IE11 */
     document.msExitFullscreen();
   }
+  isFullscreen = false;
+  updateFullscreenBtn();
 }
   
 
@@ -153,14 +178,14 @@ function startScreenHTML(){
 
                   <div class="startscreen-top">
                     
-                      <div class="start-controls">
+                      <!-- <div class="start-controls">
                           <div class="start-img-container" id="audio-img-container" onclick="muteAllAudio()">
                               <img src="img/10_controls/volume.png" alt="">
                           </div>
                           <div class="start-img-container" id="fullscreen-img-container" onclick="fullscreen('stage')">
                               <img src="img/10_controls/fullscreen.png" alt="">
                           </div>
-                      </div>
+                      </div> -->
 
                       <div class="start-btn hovering"  onclick="startGame()">
                           <h2>Start</h2>
