@@ -74,9 +74,23 @@ function changeAudioFunc() {
 
 
 
-function gameOverScreen(){
-  console.log('game over')
+// function endScreen(img){
+//   document.getElementById('stage').innerHTML += `
+//     <div class="endscreen" id="endscreen">
+//       <img src="${img}">
+//     </div>
+//   `;
+// }
+
+function endScreen(img) {
+  const endScreenDiv = document.createElement('div');
+  endScreenDiv.className = 'endscreen';
+  endScreenDiv.innerHTML = `
+    <img src="${img}">
+  `;
+  document.getElementById('stage').appendChild(endScreenDiv);
 }
+
 
 
 function stopGame(){
@@ -97,38 +111,41 @@ function stopAllIntervals() {
 
 
 window.addEventListener('keydown', (event) => {
-    if (event.keyCode === 37) {
-      keyboard.LEFT = true;
-    } else if (event.keyCode === 39) {
-      keyboard.RIGHT = true;
-    } else if (event.keyCode === 38) {
-      keyboard.UP = true;
-    } else if (event.keyCode === 40) {
-      keyboard.DOWN = true;
-    } else if (event.keyCode === 32) {
-      keyboard.SPACE = true;
-    } else if (event.keyCode === 68) {
-      keyboard.D = true;
-    }
-  });
-
-
+  if (gameOn) {
+      if (event.keyCode === 37) {
+          keyboard.LEFT = true;
+      } else if (event.keyCode === 39) {
+          keyboard.RIGHT = true;
+      } else if (event.keyCode === 38) {
+          keyboard.UP = true;
+      } else if (event.keyCode === 40) {
+          keyboard.DOWN = true;
+      } else if (event.keyCode === 32) {
+          keyboard.SPACE = true;
+      } else if (event.keyCode === 68) {
+          keyboard.D = true;
+      }
+  }
+});
 
 window.addEventListener('keyup', (event) => {
-    if (event.keyCode === 37) {
-      keyboard.LEFT = false;
-    } else if (event.keyCode === 39) {
-      keyboard.RIGHT = false;
-    } else if (event.keyCode === 38) {
-      keyboard.UP = false;
-    } else if (event.keyCode === 40) {
-      keyboard.DOWN = false;
-    } else if (event.keyCode === 32) {
-      keyboard.SPACE = false;
-    } else if (event.keyCode === 68) {
-      keyboard.D = false;
-    }
-  });
+  if (gameOn) {
+      if (event.keyCode === 37) {
+          keyboard.LEFT = false;
+      } else if (event.keyCode === 39) {
+          keyboard.RIGHT = false;
+      } else if (event.keyCode === 38) {
+          keyboard.UP = false;
+      } else if (event.keyCode === 40) {
+          keyboard.DOWN = false;
+      } else if (event.keyCode === 32) {
+          keyboard.SPACE = false;
+      } else if (event.keyCode === 68) {
+          keyboard.D = false;
+      }
+  }
+});
+
 
 
 // for mobile buttons

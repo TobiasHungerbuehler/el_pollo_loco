@@ -178,6 +178,8 @@
             this.clearScene()
             this.dieAnimation(this.IMAGES_DEAD);
             this.audioManager.closingMusic('winn');
+            endScreen('img/9_intro_outro_screens/game_over/win4.png');
+            gameOn = false;
         }
     }
 } 

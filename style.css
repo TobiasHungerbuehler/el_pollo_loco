@@ -35,6 +35,7 @@ body {
     background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
     background-position: center;  /* Zentriert das Bild */
     background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    border-radius: 10px;
 }
 
 .ingameControl{
@@ -110,6 +111,23 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
+}
+
+.endscreen{
+    position: absolute;
+    height: 480px;
+    width: 720px;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.endscreen img {
+    padding-top: 5px;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
 }
 
 
@@ -247,10 +265,10 @@ h2{
 
 canvas {
     display: block;
-    background-image: url('img/5_background/backdrop6.png');
-    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
-    background-position: center;  /* Zentriert das Bild */
-    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    /* background-image: url('img/5_background/backdrop6.png');
+    background-size: cover; 
+    background-position: center;  
+    background-repeat: no-repeat;  */
 }
 
 /* Stile für den Vollbildmodus */
@@ -284,6 +302,15 @@ canvas {
         height: auto;
         width: 99vw;
         align-self: center;
+    }
+
+    .endscreen{
+        height: 100%;
+        width: auto;
+    }
+
+    .endscreen img {
+        padding-top: 0px;
     }
 
     .mobile-control img{

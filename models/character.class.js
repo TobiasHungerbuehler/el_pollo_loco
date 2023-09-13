@@ -62,7 +62,6 @@ class Character extends MovableObject {
     }
     
     animate(){
-        console.log('animate', this.speed);
         // bewegen
         this.characterMoveAnimation = setInterval(()=> {
             this.walking_sound.pause();
@@ -86,9 +85,10 @@ class Character extends MovableObject {
         // bilder animieren
         this.characterImageAnimation = setInterval(()=> {
             if(this.dead()){
-                gameOverScreen();
                 this.CharacterEndAnimation();
                 this.audioManager.closingMusic('loose');
+                endScreen('img/9_intro_outro_screens/game_over/gameover!.png');
+                clearInterval(this.characterMoveAnimation);
              } else if (this.isHurt()) {
                  this.playAnimation(this.IMAGES_HURT);
                  this.audioManager.playAudio(this.hurt_sound);

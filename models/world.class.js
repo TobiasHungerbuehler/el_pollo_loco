@@ -134,7 +134,7 @@ class World {
     
     draw() {
 
-        if (gameOn) { // Überprüfen Sie, ob das Spiel läuft
+        if (gameOn || !gameOn) { // Überprüfen Sie, ob das Spiel läuft
             
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
     
