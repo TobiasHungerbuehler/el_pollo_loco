@@ -1,24 +1,25 @@
 let canvas;
 let world; 
-let keyboard = new Keyboard();
+let keyboard;
 let muteModus = false;
 let intervals = [];
 let gameOn;
 let isFullscreen = false;
 
 
-
-function muteAllAudio() {
-  muteModus = !muteModus;
-  updateStartAudioBtn();
+function init() {
+    console.log('Mutemodus =', muteModus);
+    document.getElementById('stage').innerHTML += startScreenHTML();
+    updateStartAudioBtn();
+    updateFullscreenBtn();
+    console.log('init', intervals);
 }
 
 
-function init() {
-  console.log('Mutemodus =', muteModus);
-  document.getElementById('stage').innerHTML += startScreenHTML();
-  updateStartAudioBtn();
-  //updateFullscreenBtn();
+// Voreinstellung für Audio aud dem startscreen
+function muteAllAudio() {
+    muteModus = !muteModus;
+    updateStartAudioBtn();
 }
 
 
@@ -54,6 +55,7 @@ function updateFullscreenBtn(){
 function startGame(){
   gameOn = true;
   document.querySelector('.overlay').remove();
+  keyboard = new Keyboard();
   canvas = document.getElementById('canvas'); // canvas html element in variable
   world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
   changeAudioFunc();
@@ -61,35 +63,24 @@ function startGame(){
 
 
 function changeAudioFunc() {
-  let funct;
-  if(gameOn){
-    funct = "audioManager.toggleMute()";
-  }
-  if(!gameOn){
-    funct = "muteAllAudio()";
-  }
-  let audioButton = document.getElementById("ingame-audio-btn-container");
-  audioButton.setAttribute("onclick", funct);
+    let funct;
+    if(gameOn){
+      funct = "audioManager.toggleMute()";
+    }
+    if(!gameOn){
+      funct = "muteAllAudio()";
+    }
+    let audioButton = document.getElementById("ingame-audio-btn-container");
+    audioButton.setAttribute("onclick", funct);
 }
 
 
+function returnToStart(){
+    document.querySelector('.endscreen').remove();
+    stopGame();
 
-// function endScreen(img){
-//   document.getElementById('stage').innerHTML += `
-//     <div class="endscreen" id="endscreen">
-//       <img src="${img}">
-//     </div>
-//   `;
-// }
-
-function endScreen(img) {
-  const endScreenDiv = document.createElement('div');
-  endScreenDiv.className = 'endscreen';
-  endScreenDiv.innerHTML = `
-    <img src="${img}">
-  `;
-  document.getElementById('stage').appendChild(endScreenDiv);
 }
+
 
 
 
@@ -177,16 +168,18 @@ function openFullscreen(elem) {
 
 /* Close fullscreen */
 function closeFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) { /* Safari */
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { /* IE11 */
-    document.msExitFullscreen();
-  }
-  isFullscreen = false;
-  updateFullscreenBtn();
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+      document.msExitFullscreen();
+    }
+    isFullscreen = false;
+    updateFullscreenBtn();
 }
+
+
   
 
 function startScreenHTML(){

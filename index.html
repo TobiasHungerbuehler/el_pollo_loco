@@ -25,6 +25,7 @@
     <script src="./models/throwable-object.class.js"></script>
     <script src="./models/endboss.class.js"></script>
     <script src="./js/game.js"></script>
+    <script src="./js/html.js"></script>
     <script src="./levels/level1.js"></script>
 </head>
 <body onload="init()" id="body">
@@ -33,7 +34,7 @@
 
         <div class="ingameControl">
             <button onclick="stopGame()">Stop Game</button>
-
+            
             <!-- <button onclick="fullscreen('stage')">vollbild</button> -->
 
             <div class="ingame-audio-btn-container" id="ingame-audio-btn-container" onclick="muteAllAudio()">
@@ -64,14 +65,7 @@
             </div>
         </div>
         
-        
-        
-
         <canvas class="frame" width="720" height="480" id="canvas"></canvas>
-        
-
-        
-        
 
     </div>
 

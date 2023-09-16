@@ -3,8 +3,8 @@ class Character extends MovableObject {
     height = 280;
     y =  155;
     speed = 7;
-    characterImageAnimation;
-    characterMoveAnimation;
+    // characterImageAnimation;
+    // characterMoveAnimation;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -88,7 +88,7 @@ class Character extends MovableObject {
                 this.CharacterEndAnimation();
                 this.audioManager.closingMusic('loose');
                 endScreen('img/9_intro_outro_screens/game_over/gameover!.png');
-                clearInterval(this.characterMoveAnimation);
+                gameOn = false;
              } else if (this.isHurt()) {
                  this.playAnimation(this.IMAGES_HURT);
                  this.audioManager.playAudio(this.hurt_sound);
