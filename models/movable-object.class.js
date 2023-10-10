@@ -45,7 +45,6 @@ class MovableObject extends DrawableObject { // test
             this.y + this.height > obj.y &&
             this.x < obj.x + obj.width &&
             this.y < obj.y + obj.height
-
     }
 
     hit(){
