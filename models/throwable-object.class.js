@@ -2,6 +2,13 @@ class ThrowableObject extends MovableObject{
 
     throw_sound = new Audio('audio/whoosh2.mp3');
     
+    offset = {
+        top: 8,
+        left: 25,
+        right: 25,
+        bottom: 8
+    }
+    
     IMAGES_SPLASH  = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',

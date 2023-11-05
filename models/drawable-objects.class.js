@@ -6,6 +6,12 @@ class DrawableObject {
     y = 280;
     height = 150;
     width = 100;
+    offset = {
+        top: 8,
+        left: 8,
+        right: 8,
+        bottom: 8
+    }
 
     loadImage(path) {
         this.img = new Image();  // Erstelle ein neues Image-Objekt. Image Standard Tag
@@ -52,11 +58,31 @@ class DrawableObject {
 
 
     drawFrame(ctx){ // zeichnet einen frame um chicken und character
-        if(this instanceof Character || this instanceof Chicken){
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ChickenSmall || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject){
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = "red";
             ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
+    }
+
+    drawOffset(ctx){ // zeichnet einen frame um chicken und character
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ChickenSmall || this instanceof Coin || this instanceof Bottle || this instanceof ThrowableObject){
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = "blue";
+            ctx.rect(this.x + this.offset.left , this.y + this.offset.top, this.width - (this.offset.left + this.offset.right), this.height - (this.offset.top + this.offset.bottom));
+            ctx.stroke();
+        }
+    }
+    
+    drawHeadrange(ctx){ // zeichnet einen frame um chicken und character
+        if(this instanceof Chicken || this instanceof Endboss || this instanceof ChickenSmall){
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = "green";
+            ctx.rect(this.x, this.y + this.offset.top, this.width, 10);
             ctx.stroke();
         }
     }

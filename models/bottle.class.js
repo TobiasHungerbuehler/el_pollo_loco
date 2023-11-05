@@ -1,6 +1,12 @@
 class Bottle extends DrawableObject {
     y = 365;
     x = 300;
+    offset = {
+        top: 8,
+        left: 25,
+        right: 15,
+        bottom: 8
+    }
 
 
     IMAGES_BOTTLE  = [
