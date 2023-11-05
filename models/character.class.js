@@ -5,6 +5,13 @@ class Character extends MovableObject {
     speed = 7;
     // characterImageAnimation;
     // characterMoveAnimation;
+    offset = {
+        top: 150,
+        left: 40,
+        right: 40,
+        bottom: 30
+    }
+
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -81,7 +88,7 @@ class Character extends MovableObject {
             } 
             this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
-
+        
         // bilder animieren
         this.characterImageAnimation = setInterval(()=> {
             if(this.dead()){
@@ -89,9 +96,9 @@ class Character extends MovableObject {
                 this.audioManager.closingMusic('loose');
                 endScreen('img/9_intro_outro_screens/game_over/gameover!.png');
                 gameOn = false;
-             } else if (this.isHurt()) {
-                 this.playAnimation(this.IMAGES_HURT);
-                 this.audioManager.playAudio(this.hurt_sound);
+            } else if (this.isHurt()) {
+                this.playAnimation(this.IMAGES_HURT);
+                this.audioManager.playAudio(this.hurt_sound);
             } 
             else if(this.isAboveGround() ){
                 this.playAnimation(this.IMAGES_JUMPING);

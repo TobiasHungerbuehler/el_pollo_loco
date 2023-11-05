@@ -8,6 +8,12 @@ class ChickenSmall extends MovableObject {
     width = 60;
     speed = 0.2
     fallingSoundON = true;
+    offset = {
+        top: 8,
+        left: 20,
+        right: 20,
+        bottom: 8
+    }
     
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',

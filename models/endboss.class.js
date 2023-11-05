@@ -6,6 +6,12 @@
     height = 400;
     width = 230;
     y = 50;
+    offset = {
+        top: 80,
+        left: 50,
+        right: 50,
+        bottom: 90
+    }
     startX
     endbossHits = 0;
     endbossInterval = 0;
@@ -71,7 +77,7 @@
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
         this.statusBar = statusBar;
-        this.x = 2500;
+        this.x = 2400;
         this.startX = this.x;
         this.animate();
     }

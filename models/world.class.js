@@ -15,6 +15,8 @@ class World {
     pickedCoinIndices = [];
     bottlePick_sound = new Audio('audio/bottlePick.mp3');
     coinPick_sound = new Audio('audio/coinPick.mp3');
+    characterPosition_old = 0;
+    characterJumpDown = false;
 
 
     constructor(canvas, keyboard){
@@ -31,6 +33,7 @@ class World {
 
     run(){
         let worldRun = setInterval(() => {
+            this.checkCharacterPosition_Y();
             this.checkCollision();
             this.checkThrowableObjects();
             this.hitCheck();
@@ -48,6 +51,16 @@ class World {
     //     console.log('resume')
     // }
 
+    // Prüft ob sich der character im Fall befindet
+    checkCharacterPosition_Y() {
+        if(this.character.y > this.characterPosition_old){
+            this.characterJumpDown = true;
+        }else {
+            this.characterJumpDown = false;
+        }
+        this.characterPosition_old =  this.character.y;
+    }
+
 
     checkPickableObject(){
         this.level.pickableObjects.forEach((object, index) => {
@@ -58,7 +71,7 @@ class World {
                         this.audioManager.playAudio(this.coinPick_sound);
                     }
                 }
-                if (object instanceof Bottle) {
+                if (object instanceof Bottle && this.character.y >= 145) {
                     if (!this.pickedBottleIndices.includes(index)){
                         this.bottlePicked(object, index);
                         this.audioManager.playAudio(this.bottlePick_sound);
@@ -78,6 +91,7 @@ class World {
         }
         this.statusBar.setCoinsPercentage(this.coinscore)
     }
+
     
      
     bottlePicked(object, index) {
@@ -99,11 +113,13 @@ class World {
         }
     }
 
+
+
     // character collisions
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy) && !enemy.isDead && gameOn){
-                if(this.character.y >= 65 && this.character.y < 150) { // when jumping on head
+                if(this.characterJumpDown && (enemy instanceof Chicken || enemy instanceof ChickenSmall)) { // when jumping on head
                     enemy.die();
                 } else {
                     this.character.hit();
@@ -185,13 +201,16 @@ class World {
         
         ob.draw(this.ctx);
         //ob.drawFrame(this.ctx); // Frame um die bildobjekte
-
+        ob.drawOffset(this.ctx); // Frame um die bildobjekte
+        //ob.drawHeadrange(this.ctx); // Frame um die bildobjekte
+        
         //bild wieder zurück drehen
         if(ob.otherDirection){
             this.flipImageBack(ob);
         }
         
     }
+
 
     flipImage(ob){
         this.ctx.save(); // Speicher die eigenschaften ctx
