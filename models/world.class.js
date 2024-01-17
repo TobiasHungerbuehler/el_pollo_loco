@@ -1,5 +1,7 @@
+/**
+ * Represents the game world that contains game elements.
+ */
 class World {
-    //gameOn = true;
     canvas;
     ctx; 
     audioManager = new AudioManager(this);
@@ -10,7 +12,7 @@ class World {
     keyboard;
     throwableObjects = [];
     coinscore = 0;
-    bottlescore = 20;
+    bottlescore = 0;
     pickedBottleIndices = [];
     pickedCoinIndices = [];
     bottlePick_sound = new Audio('audio/bottlePick.mp3');
@@ -19,9 +21,14 @@ class World {
     characterJumpDown = false;
 
 
+    /**
+     * Creates an instance of the World class.
+     * @param {HTMLCanvasElement} canvas - The HTML canvas element.
+     * @param {Keyboard} keyboard - The keyboard input handler.
+     */
     constructor(canvas, keyboard){
-        this.ctx = canvas.getContext('2d'); // canvas ind ctx gespeichert standard
-        this.canvas = canvas; // hilfsvariable um canvas masse zu übergeben
+        this.ctx = canvas.getContext('2d'); 
+        this.canvas = canvas; 
         this.keyboard = keyboard;
         this.level = createLevel1(this.statusBar, this.character, this.audioManager);
         this.pickableObjects = this.level.pickableObjects;
@@ -30,7 +37,9 @@ class World {
         this.run();
     }
 
-
+    /**
+     * Runs the game loop to handle game logic.
+     */
     run(){
         let worldRun = setInterval(() => {
             this.checkCharacterPosition_Y();
@@ -39,19 +48,14 @@ class World {
             this.hitCheck();
             this.checkPickableObject();
         }, 200);
-    
         intervals.push(worldRun); // Fügt die Intervall-ID zum intervals Array hinzu
     }
 
-    // weiterspielen test //////////////////////////////////////////////////////////////////////////////////
-    // resumeIntervals() {
-    //     this.run();
-    //     this.draw();
-    //     this.character.animate();
-    //     console.log('resume')
-    // }
 
-    // Prüft ob sich der character im Fall befindet
+
+    /**
+     * Checks if the character is in a falling state.
+     */
     checkCharacterPosition_Y() {
         if(this.character.y > this.characterPosition_old){
             this.characterJumpDown = true;
@@ -61,7 +65,10 @@ class World {
         this.characterPosition_old =  this.character.y;
     }
 
-
+    
+    /**
+     * Checks if the character picks up an object.
+     */
     checkPickableObject(){
         this.level.pickableObjects.forEach((object, index) => {
             if(this.character.isColliding(object)) {
@@ -82,6 +89,11 @@ class World {
     }
     
 
+    /**
+     * Handles the logic when a coin is picked up.
+     * @param {Coin} object - The picked coin object.
+     * @param {number} index - The index of the picked coin.
+     */
     coinPicked(object, index){
         this.pickedCoinIndices.push(index);
         object.picked(object);
@@ -93,7 +105,11 @@ class World {
     }
 
     
-     
+    /**
+     * Handles the logic when a bottle is picked up.
+     * @param {Bottle} object - The picked bottle object.
+     * @param {number} index - The index of the picked bottle.
+     */
     bottlePicked(object, index) {
         this.pickedBottleIndices.push(index);
         object.picked(object);
@@ -106,6 +122,9 @@ class World {
     }
     
 
+    /**
+     * Checks for throwable objects and adds them to the game world.
+     */
     checkThrowableObjects(){
         if(this.keyboard.D && this.bottlescore > 0){
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar, this.audioManager);
@@ -114,8 +133,9 @@ class World {
     }
 
 
-
-    // character collisions
+    /**
+     * Checks for collisions between the character and game elements.
+     */
     checkCollision(){
         this.level.enemies.forEach((enemy) => {
             if(this.character.isColliding(enemy) && !enemy.isDead && gameOn){
@@ -130,6 +150,9 @@ class World {
     }
     
 
+    /**
+     * Checks for collisions between throwable objects and enemies.
+     */
     hitCheck(){
         this.level.enemies.forEach((enemy) => {
             this.throwableObjects.forEach((bottle) => {
@@ -146,44 +169,56 @@ class World {
         });
     }
 
-    
-    
+
+    /**
+     * Draws game elements on the canvas.
+     */
     draw() {
-
         if (gameOn || !gameOn) { // Überprüfen Sie, ob das Spiel läuft
-            
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)//clear canvas
-    
             this.ctx.translate(this.camera_x, 0); // der context ctx verschiebt sich 100 nach links
-    
-            //elemente werden gezeichnet
-            this.addObjectToMap(this.level.backgrounds);// Backgrounds
-            this.addObjectToMap(this.level.enemies);// draw chicken
-            this.addObjectToMap(this.level.clouds);// Clouds    
-            this.addToMap(this.character);// draw pepe
-            this.addObjectToMap(this.throwableObjects);// draw bottles
-            this.addObjectToMap(this.pickableObjects);// draw bottles
-    
-        
-            this.ctx.translate(-this.camera_x, 0); 
-            // ------ Space for fixed Object ------   
-            this.statusBar.drawBars(this.ctx);
-    
-            this.ctx.translate(this.camera_x, 0);
-            
-            this.ctx.translate(-this.camera_x, 0); // der context ctx verschiebt sich wieder nach rechts  
-    
-            // draw loop // standard Methode
-            let self = this;
-            requestAnimationFrame(function(){
-                self.draw();
-            });
-            
+            this.allImagesToMapp();
+            this.cameraMoving(); 
+            this.drawLoop();
         } 
-
-        
-
     }
+    
+
+    /**
+     * Transforms all game images on the canvas.
+     */
+    allImagesToMapp(){
+                    //elemente werden gezeichnet
+        this.addObjectToMap(this.level.backgrounds);
+        this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.clouds);  
+        this.addToMap(this.character);
+        this.addObjectToMap(this.throwableObjects);
+        this.addObjectToMap(this.pickableObjects);
+    }
+
+
+    /**
+     * Handles camera movement.
+     */
+    cameraMoving(){
+        this.ctx.translate(-this.camera_x, 0); 
+        this.statusBar.drawBars(this.ctx);
+        this.ctx.translate(this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);  
+    }
+
+
+    /**
+     * Starts the game loop for drawing game elements.
+     */
+    drawLoop(){
+        let self = this;
+        requestAnimationFrame(function(){
+            self.draw();
+        });
+    }
+
 
 
     addObjectToMap(objects){
@@ -192,19 +227,15 @@ class World {
         });
     }
 
-
+    /**
+     * Adds an array of objects to the game map.
+     * @param {object[]} objects - The array of game objects to add.
+     */
     addToMap(ob){ 
-        //bild drehen wenn otherDirection = true
         if(ob.otherDirection){ 
             this.flipImage(ob);
         }
-        
         ob.draw(this.ctx);
-        //ob.drawFrame(this.ctx); // Frame um die bildobjekte
-        ob.drawOffset(this.ctx); // Frame um die bildobjekte
-        //ob.drawHeadrange(this.ctx); // Frame um die bildobjekte
-        
-        //bild wieder zurück drehen
         if(ob.otherDirection){
             this.flipImageBack(ob);
         }
@@ -212,6 +243,10 @@ class World {
     }
 
 
+    /**
+     * Flips an image horizontally for rendering.
+     * @param {object} ob - The game object with the image to flip.
+     */
     flipImage(ob){
         this.ctx.save(); // Speicher die eigenschaften ctx
         this.ctx.translate(ob.width, 0); // spiegelverkehrt einfügen
@@ -219,15 +254,22 @@ class World {
         ob.x = ob.x * -1;
     }
 
+
+    /**
+     * Restores the flipped image to its original state.
+     * @param {object} ob - The game object with the flipped image.
+     */
     flipImageBack(ob){
         ob.x = ob.x * -1;
         this.ctx.restore();
     }
 
-
+    /**
+     * Sets the reference to the world in the character instance.
+     */
     setWorldId() {
         this.character.world = this;// übergibt die komplette instanz von World um im character zuzugreifen
-        // zugriff = world.character.world
+
     }
 }
 

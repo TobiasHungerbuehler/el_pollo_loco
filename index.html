@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
+    <link rel="icon" type="image/png" href="./img/favicon.png" sizes="any">
     <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="style.css">
     
@@ -32,10 +33,11 @@
     
     <div class="stage" id="stage">
 
-        <div class="ingameControl">
-            <button onclick="stopGame()">Stop Game</button>
-            
-            <!-- <button onclick="fullscreen('stage')">vollbild</button> -->
+        <div class="ingameControl" id="ingameControl">
+          
+            <div id="stopGameBtn" class="ingame-audio-btn-container d-none" onclick="stopGame()">
+                <img src="img/10_controls/arrow2.png" alt="">
+            </div>
 
             <div class="ingame-audio-btn-container" id="ingame-audio-btn-container" onclick="muteAllAudio()">
                 <img src="img/10_controls/volume.png" alt="">
@@ -66,19 +68,6 @@
         </div>
         
         <canvas class="frame" width="720" height="480" id="canvas"></canvas>
-
-
     </div>
-
-
-
-
-
-    
-
-        
-
-    
-
 </body>
 </html>

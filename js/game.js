@@ -7,22 +7,28 @@ let gameOn;
 let isFullscreen = false;
 
 
+/**
+ * Initializes the game.
+ */
 function init() {
-    console.log('Mutemodus =', muteModus);
     document.getElementById('stage').innerHTML += startScreenHTML();
     updateStartAudioBtn();
     updateFullscreenBtn();
-    console.log('init', intervals);
 }
 
 
-// Voreinstellung für Audio aud dem startscreen
+/**
+ * Toggles the mute mode for all audio in the game.
+ */
 function muteAllAudio() {
     muteModus = !muteModus;
     updateStartAudioBtn();
 }
 
 
+/**
+ * Updates the audio button on the start screen based on the mute mode.
+ */
 function updateStartAudioBtn(){
   let src;
   if(muteModus){
@@ -35,6 +41,9 @@ function updateStartAudioBtn(){
 }
 
 
+/**
+ * Updates the fullscreen button on the start screen based on the fullscreen mode.
+ */
 function updateFullscreenBtn(){
   let src;
   let funct
@@ -51,7 +60,9 @@ function updateFullscreenBtn(){
   fullscreenBtn.setAttribute("onclick", funct);
 }
 
-
+/**
+ * Starts the game.
+ */
 function startGame(){
   gameOn = true;
   document.querySelector('.overlay').remove();
@@ -59,9 +70,31 @@ function startGame(){
   canvas = document.getElementById('canvas'); // canvas html element in variable
   world = new World(canvas, keyboard); // erzeuge neue Welt und übergieb canvas
   changeAudioFunc();
+  ingameControlsForGame();
 }
 
 
+/**
+ * Adjusts the in-game controls for the game state.
+ */
+function ingameControlsForGame() {
+  document.getElementById('stopGameBtn').classList.remove('d-none');
+  document.getElementById('ingameControl').style.right = 'auto';
+}
+
+
+/**
+ * Adjusts the in-game controls for the start screen state.
+ */
+function ingameControlsForStartscreen() {
+  document.getElementById('stopGameBtn').classList.add('d-none');
+  document.getElementById('ingameControl').style.right = '10px';
+}
+
+
+/**
+ * Changes the audio functionality based on the game state.
+ */
 function changeAudioFunc() {
     let funct;
     if(gameOn){
@@ -75,6 +108,9 @@ function changeAudioFunc() {
 }
 
 
+/**
+ * Returns to the start screen from the game or end screen.
+ */
 function returnToStart(){
     document.querySelector('.endscreen').remove();
     stopGame();
@@ -82,17 +118,22 @@ function returnToStart(){
 }
 
 
-
-
+/**
+ * Stops the game and returns to the start screen.
+ */
 function stopGame(){
   stopAllIntervals();
   gameOn = false;  
   audioManager.stopAllAudio();
   changeAudioFunc();
+  ingameControlsForStartscreen();
   init();
 }
 
 
+/**
+ * Stops all intervals used in the game.
+ */
 function stopAllIntervals() {
   intervals.forEach((intervalId) => {
       clearInterval(intervalId);
@@ -101,6 +142,11 @@ function stopAllIntervals() {
 }
 
 
+/**
+ * Handles keyboard keydown events during the game.
+ *
+ * @param {Event} event - The keydown event.
+ */
 window.addEventListener('keydown', (event) => {
   if (gameOn) {
       if (event.keyCode === 37) {
@@ -119,6 +165,12 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
+
+/**
+ * Handles keyboard keyup events during the game.
+ *
+ * @param {Event} event - The keyup event.
+ */
 window.addEventListener('keyup', (event) => {
   if (gameOn) {
       if (event.keyCode === 37) {
@@ -138,14 +190,22 @@ window.addEventListener('keyup', (event) => {
 });
 
 
-
-// for mobile buttons
+/**
+ * Sets the state of a keyboard key for mobile controls.
+ *
+ * @param {string} key - The key to set.
+ * @param {boolean} state - The state to set (true for pressed, false for released).
+ */
 function setKey(key, state) {
     keyboard[key] = state;
 }
 
-// Fullscreen /////////////////////////////////////////////
 
+/**
+ * Enters fullscreen mode for a specified element.
+ *
+ * @param {string} id - The ID of the HTML element to enter fullscreen.
+ */
 function fullscreen(id){
   isFullscreen = true;
   let fullscreen = document.getElementById(id);
@@ -153,7 +213,11 @@ function fullscreen(id){
   updateFullscreenBtn();
 }
 
-/* View in fullscreen */
+/**
+ * Opens fullscreen mode for a specified element.
+ *
+ * @param {HTMLElement} elem - The HTML element to enter fullscreen.
+ */
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -166,7 +230,9 @@ function openFullscreen(elem) {
 }
 
 
-/* Close fullscreen */
+/**
+ * Exits fullscreen mode.
+ */
 function closeFullscreen() {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -178,78 +244,3 @@ function closeFullscreen() {
     isFullscreen = false;
     updateFullscreenBtn();
 }
-
-
-  
-
-function startScreenHTML(){
-    return /*html*/ `
-              <div class="overlay frame" id="overlay">
-
-                  <div class="startscreen-top">
-                    
-                      <!-- <div class="start-controls">
-                          <div class="start-img-container" id="audio-img-container" onclick="muteAllAudio()">
-                              <img src="img/10_controls/volume.png" alt="">
-                          </div>
-                          <div class="start-img-container" id="fullscreen-img-container" onclick="fullscreen('stage')">
-                              <img src="img/10_controls/fullscreen.png" alt="">
-                          </div>
-                      </div> -->
-
-                      <div class="start-btn hovering"  onclick="startGame()">
-                          <h2>Start</h2>
-                      </div>
-      
-                  </div>
-                
-    
-                <div class="description">
-
-                    <div class="box-wrapper" id="desktop-box">
-                        <div class="box">
-                            <img src="img/10_controls/arrow.png" alt="">
-                            <div class="des-txt">Left</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/arrow.png" alt="">
-                            <div class="des-txt">Right</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/letter-d.png" alt="">
-                            <div class="des-txt">Throw</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/space.png" alt="">
-                            <div class="des-txt">Jump</div>
-                        </div>
-                    </div>
-
-                    <div class="box-wrapper" id="mobile-box">
-                        <div class="box">
-                            <img src="img/10_controls/arrow-mobile-btn.png" alt="">
-                            <div class="des-txt">Left</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/arrow-mobile-btn.png" alt="">
-                            <div class="des-txt">Right</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/arrow-mobile-btn-btl.png" alt="">
-                            <div class="des-txt">Throw</div>
-                        </div>
-                        <div class="box">
-                            <img src="img/10_controls/arrow-mobile-btn-up.png" alt="">
-                            <div class="des-txt">Jump</div>
-                        </div>
-                    </div>
-
-    
-                </div>
-            </div>
-    
-    
-    
-    
-    `;
-  }

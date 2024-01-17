@@ -1,7 +1,15 @@
+/**
+ * Represents a throwable object in the game.
+ */
 class ThrowableObject extends MovableObject{
 
     throw_sound = new Audio('audio/whoosh2.mp3');
     
+
+    /**
+     * The offset values for collision detection.
+     * @type {object}
+     */
     offset = {
         top: 8,
         left: 25,
@@ -9,6 +17,11 @@ class ThrowableObject extends MovableObject{
         bottom: 8
     }
     
+
+    /**
+     * An array of image paths for the throwable object's splash animation.
+     * @type {string[]}
+     */
     IMAGES_SPLASH  = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -19,6 +32,15 @@ class ThrowableObject extends MovableObject{
     ];
 
 
+    /**
+     * Creates an instance of the ThrowableObject class.
+     * @param {number} x - The initial x-coordinate of the throwable object.
+     * @param {number} y - The initial y-coordinate of the throwable object.
+     * @param {Character} character - The character associated with the throwable object.
+     * @param {World} world - The game world where the throwable object exists.
+     * @param {StatusBar} statusBar - The status bar displaying game information.
+     * @param {AudioManager} audioManager - The audio manager responsible for game audio.
+     */
     constructor(x,y, character, world, statusBar, audioManager){
         super();
         this.audioManager = audioManager;
@@ -35,6 +57,10 @@ class ThrowableObject extends MovableObject{
     }
 
 
+
+    /**
+     * Throws the throwable object.
+     */
     throw() {
         this.speedY = 10;
         this.applyGravity();
@@ -48,6 +74,16 @@ class ThrowableObject extends MovableObject{
                 this.x -= 10;
             }, 25)
         }
+        this.decreaseBottlescore();
+    }
+    
+
+    /**
+     * Decreases the bottlescore and updates the status bar accordingly.
+     * This function decreases the bottlescore by 1, ensures the bottlescore doesn't go below 0,
+     * and updates the status bar to reflect the current bottlescore.
+     */
+    decreaseBottlescore(){
         this.world.bottlescore -= 1; // Decrease bottlescore by 1
         let imgIndex =  this.world.bottlescore;
         if(imgIndex >= 5){
@@ -56,8 +92,11 @@ class ThrowableObject extends MovableObject{
         this.statusBar.setBottlesPercentage(imgIndex);
         intervals.push(this.throwInterval);
     }
-    
 
+
+    /**
+     * Initiates the splash animation of the throwable object.
+     */
     bottleSplash(){
         this.dieAnimation(this.IMAGES_SPLASH);
     }

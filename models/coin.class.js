@@ -1,6 +1,7 @@
+/**
+ * Represents a coin object that can be collected in the game.
+ */
 class Coin extends DrawableObject {
-    //x = 250;
-    //y = 100;
     height = 130
     width = 130
     offset = {
@@ -16,6 +17,12 @@ class Coin extends DrawableObject {
         'img/8_coin/coin_2.png'
     ];
 
+
+    /**
+     * Creates a new coin object at the specified coordinates.
+     * @param {number} x - The X-coordinate of the coin's position.
+     * @param {number} y - The Y-coordinate of the coin's position.
+     */
     constructor(x,y) {
         super();
         this.x = x;
@@ -24,6 +31,10 @@ class Coin extends DrawableObject {
         this.animate();
     }
 
+
+    /**
+     * Initiates a coin animation by continuously playing a sequence of images.
+     */
     animate(){
         this.animationInterval = setInterval(()=> {
             this.playAnimation(this.IMAGES_COIN);

@@ -1,3 +1,8 @@
+/**
+ * Represents the status bar at the top of the game screen.
+ * The status bar displays the player's health, coins, bottles, and endboss status.
+ * It also provides methods for updating and drawing the status bar.
+ */
 class StatusBar extends DrawableObject {
 
     IMAGES_HEALTH = [
@@ -5,8 +10,8 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png',
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png', //4
-        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' //5
+        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png', 
+        'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' 
     ];
 
     IMAGES_COIN = [
@@ -33,6 +38,11 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/2_statusbar_endboss/orange.png'
     ];
 
+
+    /**
+     * Constructs a new StatusBar object.
+     * Initializes the status bar's properties, loads its images, and sets default values.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTH);
@@ -50,23 +60,42 @@ class StatusBar extends DrawableObject {
     }
 
 
+    /**
+     * Sets the health percentage and updates the health bar image accordingly.
+     * @param {number} percentage - The health percentage to set.
+     */
     setHealthPercentage(percentage) {
         this.percentageHealth = percentage;
         let path = this.IMAGES_HEALTH[this.resolveImageIndex(this.percentageHealth)];
         this.imgHealth = this.imageCache[path];
     }
 
+
+    /**
+     * Sets the coins percentage and updates the coins bar image accordingly.
+     * @param {number} index - The index of the coins image to set.
+     */
     setCoinsPercentage(index) {
         let path = this.IMAGES_COIN[index];
         this.imgCoins = this.imageCache[path];
     }
     
     
+    /**
+     * Sets the bottles percentage and updates the bottles bar image accordingly.
+     * @param {number} index - The index of the bottles image to set.
+     */
     setBottlesPercentage(index) {
         let path = this.IMAGES_BOTTLE[index];
         this.imgBottles = this.imageCache[path];
     }
 
+
+    /**
+     * Resolves the index of the image based on the given percentage.
+     * @param {number} percentage - The percentage value to resolve the index for.
+     * @returns {number} - The resolved image index.
+     */
     resolveImageIndex(percentage) {
         if (percentage == 100) {
             return 5;
@@ -84,6 +113,10 @@ class StatusBar extends DrawableObject {
     }
     
     
+    /**
+     * Sets the endboss percentage and updates the endboss bar image accordingly.
+     * @param {number} percentage - The endboss percentage to set.
+     */
     setEndbossPercentage(percentage) {
         this.endbossPercentage = percentage;
         let path = this.IMAGES_ENDBOSS[this.resolveImageIndex2(this.endbossPercentage)];
@@ -91,7 +124,11 @@ class StatusBar extends DrawableObject {
     }
     
     
-
+    /**
+     * Resolves the index of the endboss image based on the given percentage.
+     * @param {number} percentage - The endboss percentage value to resolve the index for.
+     * @returns {number} - The resolved endboss image index.
+     */
     resolveImageIndex2(percentage) {
         if (percentage >= 100) {
             return 0; // Grün
@@ -103,26 +140,24 @@ class StatusBar extends DrawableObject {
     }
 
     
+    /**
+     * Draws the health, coins, bottles, and endboss bars on the canvas.
+     * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+     */
     drawBars(ctx) {
-        // Zeichne den Health-Balken
         ctx.drawImage(this.imgHealth, this.x, this.y, this.width, this.height);
-        // Zeichne den Coins-Balken unter dem Health-Balken
         ctx.drawImage(this.imgCoins, this.x, this.y + this.height, this.width, this.height);
-        // Zeichne den Bottles-Balken unter dem Coins-Balken
         ctx.drawImage(this.imgBottles, this.x, this.y + 2 * this.height, this.width, this.height);
-        // Zeichne den Endboss-Balken oben rechts
         ctx.drawImage(this.imgEndboss, ctx.canvas.width - this.width - 15, this.y, this.width, this.height);
     }
 
     
+    /**
+     * Updates the endboss bar when the endboss is hit.
+     */
     endbossHit() {
         if (this.endbossPercentage > 0) {
             this.setEndbossPercentage(this.endbossPercentage - 10);
         }
     }
-    
-    
-    
-    
-
 }

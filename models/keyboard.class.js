@@ -1,3 +1,6 @@
+/**
+ * Represents a virtual keyboard that tracks key states.
+ */
 class Keyboard {
     LEFT = false;
     RIGHT = false;
@@ -5,5 +8,4 @@ class Keyboard {
     DOWN = false;
     SPACE = false;
     D = false;
-
 }

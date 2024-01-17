@@ -1,3 +1,7 @@
+/**
+ * Represents a bottle object in the game.
+ * @extends DrawableObject
+ */
 class Bottle extends DrawableObject {
     y = 365;
     x = 300;
@@ -15,6 +19,10 @@ class Bottle extends DrawableObject {
     ];
 
 
+    /**
+     * Creates a new Bottle instance at the specified x-coordinate.
+     * @param {number} x - The initial x-coordinate of the bottle.
+     */
     constructor(x){
         super();
         let randomIndex = Math.floor(Math.random() * this.IMAGES_BOTTLE.length);

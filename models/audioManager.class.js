@@ -1,9 +1,16 @@
+/**
+ * Manages audio in the game, including background music and sound effects.
+ */
 class AudioManager {
-
     music = new Audio('audio/music.mp3');
     loose_sound = new Audio('audio/loose.mp3');
     winn_sound = new Audio('audio/winn.mp3');
 
+
+    /**
+     * Creates a new AudioManager instance.
+     * @param {World} world - The game world to which the audio manager belongs.
+     */
     constructor(world) {
         window.audioManager = this;
         this.world = world;
@@ -15,11 +22,12 @@ class AudioManager {
     }
 
 
-    // Methode zum Abspielen einer Audiodatei
+    /**
+     * Plays an audio file.
+     * @param {HTMLAudioElement} audio - The audio element to be played.
+     */
     playAudio(audio) {
         audio.play();
-
-        //setzte auf mute wenn isMuted = true
         if (this.isMuted) {
             audio.muted = this.isMuted;
         }
@@ -27,21 +35,29 @@ class AudioManager {
     }
 
 
-    // Methode zum Hinzufügen von Audiodateien zum Manager
+    /**
+     * Adds an audio element to the manager's list.
+     * @param {HTMLAudioElement} audio - The audio element to be added.
+     */
     addAudio(audio) {
         this.allAudio.push(audio);
     }
 
 
+    /**
+     * Updates the audio control button image based on mute status.
+     * @param {string} imageSrc - The image source for the audio control button.
+     */
     updateAudioButton(imageSrc) {
         document.getElementById('ingame-audio-btn-container').innerHTML = /*html*/ `
-
                 <img src="${imageSrc}" alt="">
-
         `;
     }
 
 
+    /**
+     * Initializes in-game audio controls and sets the audio button image.
+     */
     ingameAudioControls() {
         let imageSrc;
         if (this.isMuted) {
@@ -53,11 +69,12 @@ class AudioManager {
     }
     
 
-
-    // Methode zum Umschalten der Stummschaltung
+    /**
+     * Toggles mute status for all audio elements.
+     */
     toggleMute() {
         this.isMuted = !this.isMuted;
-        muteModus = this.isMuted;  // aktualisiert die globale Variable
+        muteModus = this.isMuted;  // Update the global variable
         this.allAudio.forEach(audio => {
             audio.muted = this.isMuted;
         });
@@ -65,27 +82,28 @@ class AudioManager {
     }
 
     
+     /**
+     * Plays closing music based on the game result.
+     * @param {string} result - The game result ('loose' or 'winn').
+     */   
     closingMusic(result){
-        //this.world.gameOn = false;
         if(result === 'loose'){
-            this.music.pause(); // Stoppt die Musik
-            //this.music.currentTime = 0; // Setzt den Zeitpunkt der Musik auf 0 zurück
-            this.playAudio(this.loose_sound); // Spielt den "loose"-Sound ab
+            this.music.pause(); 
+            this.playAudio(this.loose_sound); 
         }
         if(result === 'winn'){
-            this.music.pause(); // Stoppt die Musik
-            //this.music.currentTime = 0; // Setzt den Zeitpunkt der Musik auf 0 zurück
-            this.playAudio(this.winn_sound); // Spielt den "winn"-Sound ab
+            this.music.pause(); 
+            this.playAudio(this.winn_sound); 
         }
     }
 
 
+    /**
+     * Stops all audio playback.
+     */
     stopAllAudio() {
         this.allAudio.forEach(audio => {
-            audio.pause();        // Pausiert das Audio
+            audio.pause();       
         });
     }
-    
-
-
 }

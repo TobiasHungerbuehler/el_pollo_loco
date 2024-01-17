@@ -1,10 +1,12 @@
+/**
+ * Represents the main character of the game.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
     width = 120;
     height = 280;
     y =  155;
     speed = 7;
-    // characterImageAnimation;
-    // characterMoveAnimation;
     offset = {
         top: 150,
         left: 40,
@@ -56,6 +58,10 @@ class Character extends MovableObject {
     hurt_sound = new Audio('audio/character_hurt.mp3');
 
 
+    /**
+     * Creates a new Character instance.
+     * @param {AudioManager} audioManager - The audio manager for handling character's audio.
+     */
     constructor(audioManager) {
         super();
         this.audioManager = audioManager;
@@ -68,8 +74,22 @@ class Character extends MovableObject {
         this.applyGravity();
     }
     
+
+    /**
+     * Initiates character animations and movements.
+     */
     animate(){
-        // bewegen
+        this.moveAnimation();
+        this.imageAnimation();
+        intervals.push(this.characterImageAnimation);
+        intervals.push(this.characterMoveAnimation);
+    }
+
+
+    /**
+     * Handles character's movement animation.
+     */
+    moveAnimation(){
         this.characterMoveAnimation = setInterval(()=> {
             this.walking_sound.pause();
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){ 
@@ -88,8 +108,14 @@ class Character extends MovableObject {
             } 
             this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
         }, 1000 / 60)
-        
-        // bilder animieren
+
+    }
+
+
+    /**
+     * Handles character's image animation.
+     */
+    imageAnimation(){
         this.characterImageAnimation = setInterval(()=> {
             if(this.dead()){
                 this.CharacterEndAnimation();
@@ -108,16 +134,20 @@ class Character extends MovableObject {
                 }
             }
         }, 50)
-
-        intervals.push(this.characterImageAnimation);
-        intervals.push(this.characterMoveAnimation);
     }
 
+
+    /**
+     * Makes the character jump.
+     */
     jump(){
         this.speedY = 30;
     }
 
-    // 
+
+    /**
+     * Initiates the character's end animation (death animation).
+     */
     CharacterEndAnimation() {
         this.dieAnimation(this.IMAGES_DEAD);
         clearInterval(this.characterImageAnimation);
