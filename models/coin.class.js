@@ -41,5 +41,4 @@ class Coin extends DrawableObject {
         }, 500 )
         intervals.push(this.animationInterval);
     }
-
 }

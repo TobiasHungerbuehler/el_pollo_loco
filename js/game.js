@@ -60,6 +60,7 @@ function updateFullscreenBtn(){
   fullscreenBtn.setAttribute("onclick", funct);
 }
 
+
 /**
  * Starts the game.
  */
@@ -212,6 +213,7 @@ function fullscreen(id){
   openFullscreen(fullscreen);
   updateFullscreenBtn();
 }
+
 
 /**
  * Opens fullscreen mode for a specified element.

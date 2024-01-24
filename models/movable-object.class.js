@@ -130,5 +130,4 @@ class MovableObject extends DrawableObject { // test
             }, i * 30);
         }
     }
-
 }

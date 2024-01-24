@@ -15,6 +15,34 @@ class Character extends MovableObject {
     }
 
 
+    IMAGES_IDLE = [
+        'img/2_character_pepe/1_idle/idle/I-1.png',
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png'
+    ];
+
+
+    IMAGES_LONG_IDLE = [
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png'
+    ];
+
+
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -23,6 +51,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png'
     ];
+
 
     IMAGES_JUMPING = [
         'img/2_character_pepe/3_jump/J-31.png',
@@ -36,6 +65,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -46,12 +76,14 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
+
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
 
+    
     world;
     walking_sound = new Audio('audio/running3.mp3');
     jump_sound = new Audio('audio/jump2.mp3');
@@ -66,12 +98,16 @@ class Character extends MovableObject {
         super();
         this.audioManager = audioManager;
         this.loadImage('img/2_character_pepe/2_walk/W-21.png');
-        this.loadImages(this.IMAGES_WALKING); // load all walking images in imageCache
-        this.loadImages(this.IMAGES_JUMPING); // load all walking images in imageCache
-        this.loadImages(this.IMAGES_DEAD); // load all walking images in imageCache
-        this.loadImages(this.IMAGES_HURT); // load all walking images in imageCache
+        this.loadImages(this.IMAGES_IDLE); 
+        this.loadImages(this.IMAGES_LONG_IDLE); 
+        this.loadImages(this.IMAGES_WALKING); 
+        this.loadImages(this.IMAGES_JUMPING); 
+        this.loadImages(this.IMAGES_DEAD); 
+        this.loadImages(this.IMAGES_HURT); 
         this.animate();     
         this.applyGravity();
+        this.isIdle = false;
+        this.idleTimer = 0;
     }
     
 
@@ -87,53 +123,112 @@ class Character extends MovableObject {
 
 
     /**
-     * Handles character's movement animation.
+     * Handles the character's movement based on keyboard input.
      */
     moveAnimation(){
         this.characterMoveAnimation = setInterval(()=> {
             this.walking_sound.pause();
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){ 
-                this.moveRight();
-                this.throwDirectionRight = true;
-                this.audioManager.playAudio(this.walking_sound);
+                this.characterMoveRight();
             }
             if(this.world.keyboard.LEFT && this.x > 0){ 
-                this.moveLeft();
-                this.throwDirectionRight = false;
-                this.audioManager.playAudio(this.walking_sound);
+                this.characterMoveLeft();
             }
             if(this.world.keyboard.SPACE && !this.isAboveGround()){
-                this.jump();       
-                this.audioManager.playAudio(this.jump_sound);
+                this.characterJump();
             } 
-            this.world.camera_x = -this.x +250; // x koordinate an camera_x übergeben
+            this.world.camera_x = -this.x +250; 
         }, 1000 / 60)
 
     }
 
 
     /**
-     * Handles character's image animation.
+     * Manages the character's rightward movement and triggers the corresponding sound.
      */
-    imageAnimation(){
-        this.characterImageAnimation = setInterval(()=> {
-            if(this.dead()){
-                this.CharacterEndAnimation();
-                this.audioManager.closingMusic('loose');
-                endScreen('img/9_intro_outro_screens/game_over/gameover!.png');
-                gameOn = false;
+    characterMoveRight(){
+        this.moveRight();
+        this.throwDirectionRight = true;
+        this.audioManager.playAudio(this.walking_sound);
+    }
+
+
+    /**
+     * Manages the character's leftward movement and triggers the corresponding sound.
+     */
+    characterMoveLeft(){
+        this.moveLeft();
+        this.throwDirectionRight = false;
+        this.audioManager.playAudio(this.walking_sound);
+    }
+
+
+    /**
+     * Manages the character's jumping action and triggers the corresponding sound.
+     */
+    characterJump() {
+        this.jump();       
+        this.audioManager.playAudio(this.jump_sound);
+    }
+
+
+    /**
+     * Manages the character's image animation based on various states like dead, hurt, jumping, or idle.
+     */
+    imageAnimation() {
+        this.characterImageAnimation = setInterval(() => {
+            if (this.dead()) {
+                this.characterDeadAnimation();
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
                 this.audioManager.playAudio(this.hurt_sound);
-            } 
-            else if(this.isAboveGround() ){
+            } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){ 
-                    this.playAnimation(this.IMAGES_WALKING)
-                }
+                this.handleIdleAndWalkingState();
             }
-        }, 50)
+        }, 100);
+    }
+
+
+    /**
+     * Handles the idle and walking state of the character, including switching between idle animations.
+     */
+    handleIdleAndWalkingState() {
+        if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.world.keyboard.SPACE) {
+            this.isIdle = true;
+            this.idleTimer += 50; 
+            this.characterIdleTimer()
+        } else {
+            this.isIdle = false;
+            this.idleTimer = 0;
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
+            }
+        }
+    }
+
+
+    /**
+     * Handles the character's dead animation and game over logic.
+     */
+    characterDeadAnimation(){
+        this.CharacterEndAnimation();
+        this.audioManager.closingMusic('loose');
+        endScreen('img/9_intro_outro_screens/game_over/gameover!.png');
+        gameOn = false;
+    }
+
+
+    /**
+     * Manages the timer for idle animations and switches between idle and long idle animations.
+     */
+    characterIdleTimer() {
+        if (this.idleTimer > 2000) {
+            this.playAnimation(this.IMAGES_LONG_IDLE);
+        } else {
+            this.playAnimation(this.IMAGES_IDLE);
+        }
     }
 
 
@@ -146,19 +241,11 @@ class Character extends MovableObject {
 
 
     /**
-     * Initiates the character's end animation (death animation).
+     * Initiates the character's end animation sequence upon death.
      */
     CharacterEndAnimation() {
         this.dieAnimation(this.IMAGES_DEAD);
         clearInterval(this.characterImageAnimation);
         clearInterval(this.characterMoveAnimation);
     }
-    
-    
-
-    
-
-
-
-
 }

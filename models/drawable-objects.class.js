@@ -27,7 +27,6 @@ class DrawableObject {
     }
 
 
-
     /**
      * Loads images from an array of paths and stores them in the image cache.
      * @param {string[]} array - An array of image paths to load and cache.

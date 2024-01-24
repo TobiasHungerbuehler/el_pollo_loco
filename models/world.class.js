@@ -21,7 +21,6 @@ class World {
     characterJumpDown = false;
 
 
-
     /**
      * Creates an instance of the World class.
      * @param {HTMLCanvasElement} canvas - The HTML canvas element.
@@ -38,6 +37,7 @@ class World {
         this.run();
     }
 
+
     /**
      * Runs the game loop to handle game logic.
      */
@@ -51,7 +51,6 @@ class World {
         }, 200);
         intervals.push(worldRun); // Fügt die Intervall-ID zum intervals Array hinzu
     }
-
 
 
     /**
@@ -217,7 +216,13 @@ class World {
     }
 
 
-
+    /**
+     * Adds an array of objects to the game map.
+     * This method iterates through each object in the provided array and adds it
+     * to the map using the addToMap method.
+     *
+     * @param {object[]} objects - An array of objects to be added to the map.
+     */
     addObjectToMap(objects){
         objects.forEach(ob => {
             this.addToMap(ob);

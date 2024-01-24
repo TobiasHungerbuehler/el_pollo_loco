@@ -15,15 +15,18 @@ class ChickenSmall extends MovableObject {
         bottom: 8
     }
     
+
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
         'img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
+
     IMAGES_DEAD = [
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
+
 
     die_sound = new Audio('audio/dieSmallChicken.mp3');
     falling_sound = new Audio('audio/falling5.mp3');
@@ -135,10 +138,4 @@ class ChickenSmall extends MovableObject {
         this.outOfGameAnimation();
         this.audioManager.playAudio(this.die_sound);
     } 
-
-
-
-
-    
-
 }

@@ -14,6 +14,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png' 
     ];
 
+    
     IMAGES_COIN = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png',
@@ -23,6 +24,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png'
     ];
     
+
     IMAGES_BOTTLE = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png',
@@ -31,6 +33,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png'
     ];
+
 
     IMAGES_ENDBOSS = [
         'img/7_statusbars/2_statusbar_endboss/green.png',
