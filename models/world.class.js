@@ -21,6 +21,7 @@ class World {
     characterJumpDown = false;
 
 
+
     /**
      * Creates an instance of the World class.
      * @param {HTMLCanvasElement} canvas - The HTML canvas element.
@@ -78,7 +79,7 @@ class World {
                         this.audioManager.playAudio(this.coinPick_sound);
                     }
                 }
-                if (object instanceof Bottle && this.character.y >= 145) {
+                if (object instanceof Bottle && this.character.y >= 145 && this.bottlescore <= 4) {
                     if (!this.pickedBottleIndices.includes(index)){
                         this.bottlePicked(object, index);
                         this.audioManager.playAudio(this.bottlePick_sound);
@@ -115,9 +116,6 @@ class World {
         object.picked(object);
         this.bottlescore += 1;
         let imgIndex = this.bottlescore;
-        if(imgIndex >= 5){
-            imgIndex = 5;
-        }
         this.statusBar.setBottlesPercentage(imgIndex)
     }
     
@@ -127,7 +125,7 @@ class World {
      */
     checkThrowableObjects(){
         if(this.keyboard.D && this.bottlescore > 0){
-            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar, this.audioManager);
+            let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100, this.character, this, this.statusBar, this.audioManager, this.ctx);
             this.throwableObjects.push(bottle);
         }
     }
@@ -188,7 +186,6 @@ class World {
      * Transforms all game images on the canvas.
      */
     allImagesToMapp(){
-                    //elemente werden gezeichnet
         this.addObjectToMap(this.level.backgrounds);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.level.clouds);  
@@ -227,6 +224,7 @@ class World {
         });
     }
 
+
     /**
      * Adds an array of objects to the game map.
      * @param {object[]} objects - The array of game objects to add.
@@ -239,7 +237,6 @@ class World {
         if(ob.otherDirection){
             this.flipImageBack(ob);
         }
-        
     }
 
 
@@ -263,6 +260,7 @@ class World {
         ob.x = ob.x * -1;
         this.ctx.restore();
     }
+
 
     /**
      * Sets the reference to the world in the character instance.

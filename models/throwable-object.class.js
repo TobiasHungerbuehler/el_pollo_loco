@@ -3,19 +3,18 @@
  */
 class ThrowableObject extends MovableObject{
 
-    throw_sound = new Audio('audio/whoosh2.mp3');
-    
-
     /**
      * The offset values for collision detection.
      * @type {object}
-     */
+    */
     offset = {
         top: 8,
         left: 25,
         right: 25,
         bottom: 8
     }
+    rotationAngle = 0;
+    throw_sound = new Audio('audio/whoosh2.mp3');
     
 
     /**
@@ -57,7 +56,6 @@ class ThrowableObject extends MovableObject{
     }
 
 
-
     /**
      * Throws the throwable object.
      */
@@ -68,15 +66,33 @@ class ThrowableObject extends MovableObject{
         if(this.character.throwDirectionRight) {
             this.throwInterval = setInterval(() => {
                 this.x += 10;
-            }, 25)
+                this.rotationAngle += Math.PI / 10;  
+            }, 25);
         } else {
             this.throwInterval = setInterval(() => {
                 this.x -= 10;
-            }, 25)
+                this.rotationAngle += Math.PI / 10;  
+            }, 25);
         }
         this.decreaseBottlescore();
     }
-    
+
+
+    /**
+     * Draws the throwable object on the canvas with rotation.
+     * It translates the canvas context to the object's center, rotates it, 
+     * draws the object, and then restores the context to its original state.
+     *
+     * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
+     */
+    draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x + this.width / 2, this.y + this.height / 2); // Verschiebt den Drehpunkt zur Mitte der Flasche
+        ctx.rotate(this.rotationAngle);
+        ctx.drawImage(this.img, -this.width / 2, -this.height / 2, this.width, this.height); // Zeichnet das Bild zentriert
+        ctx.restore();
+    }
+
 
     /**
      * Decreases the bottlescore and updates the status bar accordingly.
@@ -100,8 +116,4 @@ class ThrowableObject extends MovableObject{
     bottleSplash(){
         this.dieAnimation(this.IMAGES_SPLASH);
     }
-
- 
-
-
 }
