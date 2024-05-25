@@ -8,9 +8,9 @@ body {
     align-items: center;
     background-color: black;
     background-image: url('img/5_background/backdrop6.png');
-    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
-    background-position: center;  /* Zentriert das Bild */
-    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    background-size: cover; 
+    background-position: center;  
+    background-repeat: no-repeat; 
     overflow-y: hidden;
     overflow-x: hidden;
 }
@@ -24,9 +24,9 @@ body {
     justify-content: center;
     position: relative;
     background-image: url('img/5_background/backdrop6.png');
-    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
-    background-position: center;  /* Zentriert das Bild */
-    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
     border-radius: 10px;
 }
 
@@ -103,10 +103,10 @@ body {
     width: 720px;
     z-index: 3;
     background-color: #039CC8;
-    background-image: url('./img/9_intro_outro_screens/start/startscreen_3.png'); /* Pfad zu Ihrem Bild */
-    background-size: cover; /* Deckt den gesamten Bereich ab und behält das Seitenverhältnis bei */
-    background-position: center;  /* Zentriert das Bild */
-    background-repeat: no-repeat; /* Verhindert die Wiederholung des Bildes */
+    background-image: url('./img/9_intro_outro_screens/start/startscreen_3.png'); 
+    background-size: cover; 
+    background-position: center;  
+    background-repeat: no-repeat; 
     top: 0;
     bottom: 0;
     left: 0;
